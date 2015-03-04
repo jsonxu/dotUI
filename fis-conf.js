@@ -34,13 +34,7 @@ fis.config.merge({
         },
         domain : {
             //所有css文件添加http://localhost:8080作为域名
-            '**.css' : 'http://css2.pingan.com',
-            '**.less': 'http://css2.pingan.com',
-            '**.scss': 'http://css2.pingan.com',
-            '**.js'  : 'http://script2.pingan.com',
-            '**.jpg' : 'http://img2.pingan.com',
-            '**.gif' : 'http://img2.pingan.com',
-            '**.png' : 'http://img2.pingan.com'
+            
         }
     }
 });
