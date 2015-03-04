@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>jquery.plugin</title>
+    <link href="/markdown/style/mk1.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="/markdown/style/mk2.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="/markdown/style/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css" />
+
+
+</head>
+<body>
+    <div class="markdown_wraper">
+        <div class="side_nav">
+            <ul id="tree" class="ztree" style='width:100%'></ul>
+        </div>
+        <div id="readme">
+            <article class='markdown-body'>
+<h1>HTML和CSS设计模式</h1>
+<h2>起源</h2>
+<p>先来说说什么是设计模式，百度百科上有如下一段解释：</p>
+<p>设计模式（Design pattern）是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性。 毫无疑问，设计模式于己于他人于系统都是多赢的；设计模式使代码编制真正工程化；设计模式是软件工程的基石脉络，如同大厦的结构一样。</p>
+<p>虽然HTML和CSS是一种弱逻辑性的语言，但是也应该像高级编程语言一样遵循一定的规律和方法，使代码保持健壮性、可拓展性、可读性和可维护性。</p>
+<p>本文档的设计模式是为本公司项目所设计，请严格遵循这种编码的思想，如有意见和建议请向本文档的作者提出并修订。</p>
+<h1>CSS规范</h1>
+<h2>CSS reset</h2>
+<p>在开始CSS编码之前，有很多的CSS属性都必须被reset，避免浏览器出现各种兼容性问题。</p>
+<p>推荐使用的CSS reset文件：</p>
+<p><code>http://css2.pingan.com/app_css/g/base.css</code></p>
+<h2>CSS文件编码</h2>
+<p>统一使用<code>UTF-8</code>文件编码方式</p>
+<h2>CSS文件命名用下划线做间隔</h2>
+<p>推荐命名要求：<strong>栏目/页面/活动名/类型+HTML页面名/CSS文件功能</strong></p>
+<ul>
+    <li>能描述实际意义的<b>英文单词</b></li>
+    <li><b>首字符必须是英文字母，禁用其他符号或数字</b></li>
+    <li><b>字母全部小写</b></li>
+    <li>单词之间用<b>下划线</b>间隔</li>
+    <li>命名要有实际意义，避免使用123，abc等无意义的名字，如test1.css, test2.css, abc.css</li>
+</ul>
+<h3>推荐的做法</h3>
+<p>例如两个注册的功能页，其中一个注册表单页，另外一个注册结果页，CSS文件分别命名成<code>register_form.css</code>和<code>register_result.css</code></p>
+<h3>糟糕的做法</h3>
+<p><code>register_Form.css</code>，不推荐这种下划线与驼峰混搭的命名方式，因为加入驼峰并不会给我们代码带来什么好处，而且看起来并不那么fasion和简约</p>
+<p><code>register1.css</code> <code>register2.css</code>，1和2不能表示实际意义，不便于后期的拓展性。如果到了下个版本，两个步骤中间再加一个注册步骤呢？再把<code>register2.css</code>改成<code>register3.css</code>，再新建一个<code>register2.css</code>吗？</p>
+
+<h2>class命名</h2>
+<ul>
+    <li>能描述实际意义的<b>英文单词</b></li>
+    <li><b>首字符必须是英文字母，禁用其他符号或数字</b></li>
+    <li><b>字母全部小写</b></li>
+    <li>单词之间用<b>下划线</b>间隔</li>
+    <li>命名要有实际意义，避免使用123，abc等无意义的名字，如.test1, .test2, .abc</li>
+</ul>
+<p>PS.<b>为什么是下划线class命名方式？</b></p>
+<ol>
+    <li>为了与JS变量名驼峰命名方式有所区别，故不选驼峰命名。</li>
+    <li>
+        <p>减号分隔符用在JS里可能会造成误解和差错</p>
+<pre>
+var sub = 1;
+var nav = 2;
+var $demo = $("sub-nav");
+</pre>
+        <p>以上javascript代码，如果JQ选择器忘记加引号会是什么结果呢？可想而知，不是我们想要的结果。</p>
+    </li>
+    <li>下划线命名有点好处是：在很多编辑器里双击即可选中，而中划线则无法达到</li>
+</ol>
+<p>本guideline规定用<b>下划线</b>命名间隔。你肯定有千百个反驳的理由，“规范”是没有绝对权威绝对好的，你就不要花过多时间纠结于此了。</p>
+
+<h2>CSS文件注释</h2>
+<div class="highlight">
+<pre>
+/**
+    *@Description: 项目名称（可写中文）
+    *@Author: xukai (建议用英文字母)
+    *@Last Modify: xukai (2012-05-10)
+*/
+</pre>
+</div>
+<p>在CSS文件头部需要注明项目名称和说明、代码作者名、更新时间和作者名</p>
+<h2>减少使用滤镜和表达式</h2>
+<p>滤镜非常消耗性能，不推荐使用。</p>
+<p>应该遵循一个原则：能用JS解决的问题不用CSS，能用CSS解决的问题不用JS。</p>
+<p>CSS内嵌计算和表达式显然不是CSS擅长的事情，不建议写在CSS中，请尽量用JS的方式来解决。</p>
+<h2>字体不要用中文来定义</h2>
+<p>用英文字体名称。</p>
+<p>例如：<code>font-family:'微软雅黑';</code> 不建议用这种写法，在长久的代码生命周期中，会造成不可预见的问题。比如某个同事某一天用了非UTF-8编码方式，中文可能是个乱码，更新CSS提交后就会造成BUG。</p>
+<h2>每个class的CSS属性都写在一行</h2>
+<p>以便于模块化的展现。</p>
+<p>例如：</p>
+<pre>
+.mod-side-nav{float: left;margin-top: 20px;}
+.mod-side-nav li{width: 200px; height: 20px;margin-bottom: 8px;}
+.mod-side-nav li strong{font-size: 14px;}
+.mod-side-nav a{font-size: 12px; line-height: 20px;display:block;padding-left: 10px;color: #999;border-left: 1px solid #FFF;}
+.mod-side-nav a:hover{color: #333;border-left: 1px solid #F60;}
+.mod-side-nav .sub-t{margin-left: 15px;}
+</pre>
+<p>如果每个属性换行，就是这样的：</p>
+<div class="highlight">
+<pre>
+.mod-side-nav {
+    float: left;
+    margin-top: 20px;
+}
+.mod-side-nav li {
+    width: 200px;
+    height: 20px;
+    margin-bottom: 8px;
+}
+.mod-side-nav li strong {
+    font-size: 14px;
+}
+.mod-side-nav a {
+    font-size: 12px;
+    line-height: 20px;
+    display: block;
+    padding-left: 10px;
+    color: #999;
+    border-left: 1px solid #FFF;
+}
+.mod-side-nav a:hover {
+    color: #333;
+    border-left: 1px solid #F60;
+}
+.mod-side-nav .sub-t {
+    margin-left: 15px;
+}
+</pre>
+</div>
+<p>这样代码的行数就会变的很多，比较难从纵向区分我们的模块化CSS代码。当然，我们会尊重你的个人习惯，如果你坚持觉得换行的写法比较舒服，那就多按回车键换行吧。</p>
+<h2>CSS模块注释</h2>
+<p>注释写在对应的模块上方，无换行。注释与上方的CSS模块空一行。</p>
+<p><b>示例：</b></p>
+<div class="highlight">
+<pre>
+/**
+    @Name:模块名称
+    @Level:级别(Global, Channel, Function)
+    @Dependent:依赖关系,该模块必须依赖于何种模块
+    @Sample:用法示例,或指出改模块所作用的直接页面
+    @Explain:附加说明
+    @Author:创建者 日期(两位数年月日时)
+    @Last Modify:最终修改者 日期(两位数年月日时)
+*/
+.mod-side-nav{float: left;margin-top: 20px;}
+.mod-side-nav li{width: 200px; height: 20px;margin-bottom: 8px;}
+.mod-side-nav li strong{font-size: 14px;}
+.mod-side-nav a{font-size: 12px; line-height: 20px;display:block;padding-left: 10px;color: #999;border-left: 1px solid #FFF;}
+.mod-side-nav a:hover{color: #333;border-left: 1px solid #F60;}
+.mod-side-nav .sub-t{margin-left: 15px;}
+</pre>
+</div>
+<p><b>CSS定义的HTML模块是：</b></p>
+
+<h2>CSS属性的书写顺序</h2>
+<p>按照元素模型由外及内,由整体到细节书写,大致分为五组:</p>
+<ol>
+    <li>位置:position,left,right,float</li>
+    <li>盒模型属性:display,margin,padding,width,height</li>
+    <li>边框与背景:border,background</li>
+    <li>段落与文本:line-height,text-indent,font,color,text-decoration,...</li>
+    <li>其他属性:overflow,cursor,visibility,...</li>
+</ol>
+<p>之所以有这样的建议，一是为了统一书写代码的风格，二是能提升CSS渲染页面的效率（待考证）</p>
+<h2>class常用命名</h2>
+<table>
+    <tr>
+        <th colspan="10">页面结构</th>
+    </tr>
+    <tr>
+        <th>头</th>
+        <th>尾</th>
+        <th>侧栏</th>
+        <th>页面主体</th>
+        <th>栏</th>
+        <th>内容</th>
+        <th>容器</th>
+        <th>布局</th>
+        <th>模块</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>header</td>
+        <td>footer</td>
+        <td>sidebar</td>
+        <td>main</td>
+        <td>column/col</td>
+        <td>content/cont</td>
+        <td>container</td>
+        <td>layout</td>
+        <td>module/mod</td>
+        <td></td>
+    </tr>
+    <tr>
+        <th colspan="10">导航/菜单/模块</th>
+    </tr>
+    <tr>
+        <th>导航</th>
+        <th>主导航</th>
+        <th>二级导航</th>
+        <th>置顶导航</th>
+        <th>侧边导航</th>
+        <th>菜单/目录</th>
+        <th>子菜单/二级菜单</th>
+        <th>标题</th>
+        <th>摘要</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>nav</td>
+        <td>main_nav</td>
+        <td>sub_nav</td>
+        <td>top_nav</td>
+        <td>side_nav</td>
+        <td>menu</td>
+        <td>sub_menu</td>
+        <td>title</td>
+        <td>summary</td>
+        <td></td>
+    </tr>
+    <tr>
+        <th colspan="10">功能</th>
+    </tr>
+    <tr>
+        <th>标志</th>
+        <th>一种广告</th>
+        <th>登录</th>
+        <th>注册</th>
+        <th>搜索</th>
+        <th>标题栏</th>
+        <th>加入</th>
+        <th>状态</th>
+        <th>按钮</th>
+        <th>滚动</th>
+    </tr>
+    <tr>
+        <td>logo</td>
+        <td>banner</td>
+        <td>login</td>
+        <td>regsiter/reg</td>
+        <td>search</td>
+        <td>title_bar</td>
+        <td>join</td>
+        <td>status</td>
+        <td>btn</td>
+        <td>scroll</td>
+    </tr>
+    <tr>
+        <th>标签</th>
+        <th>列表</th>
+        <th>信息</th>
+        <th>当前的</th>
+        <th>提示</th>
+        <th>图标</th>
+        <th>记录</th>
+        <th>详情</th>
+        <th>标准</th>
+        <th>服务</th>
+    </tr>
+    <tr>
+        <td>tab</td>
+        <td>list</td>
+        <td>message/msg</td>
+        <td>current/cur</td>
+        <td>tips</td>
+        <td>icon</td>
+        <td>note</td>
+        <td>detail</td>
+        <td>guild</td>
+        <td>service</td>
+    </tr>
+    <tr>
+        <th>热点</th>
+        <th>新消息</th>
+        <th>下载</th>
+        <th>投票</th>
+        <th>搭档</th>
+        <th>友链</th>
+        <th>版权</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>hot</td>
+        <td>news</td>
+        <td>download</td>
+        <td>vote</td>
+        <td>partner</td>
+        <td>friend_links</td>
+        <td>copyright</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
+<h2>清浮动CSS</h2>
+<p>对于IE浏览器使用<code>zoom:1</code>使盒子触发haslayout，可达到清浮动的目的。</p>
+<p>对于非IE浏览器可以结合<code>:after</code>伪类达到清浮动的目的。</p>
+<p><b>CSS代码：</b></p>
+<pre>
+.mod_demo{zoom:1;}
+.mod_demo:after{display:block;clear:both;content:"";height:0;}
+</pre>
+<p><b>推荐的做法：</b></p>
+<p>可以结合LESS或SASS预编译语言来编写干净的可维护性的CSS，在LESS里可以创建一个通用的mixin，如：</p> 
+<pre>
+.clearfix(){
+    zoom:1;
+    :after{display:block;clear:both;content:"";height:0;}
+}
+.mod_demo{
+    .clearfix;
+}
+.mod_header{
+    .clearfix;
+}
+.mod_footer{
+    .clearfix;
+}
+</pre>
+<p><b>不推荐做成公用类，将class赋值到HTML标签上，例如：</b></p>
+<pre>
+.clearfix{zoom:1;}
+.clearfix:after{display:block;clear:both;content:"";height:0;}
+</pre>
+<pre>
+&lt;div class="mod_reg clearfix"&gt;
+    &lt;div class="side_bar"&gt;float left&lt;/div&gt;
+    &lt;div class="content"&gt;float right&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+<p>更不推荐在HTML中添加空标签来清浮动，糟糕的做法：</p>
+<pre>
+.clear{clear:both;}
+</pre>
+<pre>
+&lt;div class="mod_reg"&gt;
+    &lt;div class="side_bar"&gt;float left&lt;/div&gt;
+    &lt;div class="content"&gt;float right&lt;/div&gt;
+    &lt;div class="clear">&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+<p>这样会“污染”HTML，给HTML添加无意义的空标签。</p>
+<h1>HTML规范</h1>
+<h1>javascript规范</h1>
+            </article>
+        </div>
+    </div>
+    <script src='/markdown/js/jquery-1.10.2.min.js'></script>
+    <script src='/markdown/js/jquery.ztree.all-3.5.min.js'></script>
+    <script src='/markdown/js/jquery.ztree_toc.min.js'></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#tree').ztree_toc({
+            is_auto_number: true,
+            documment_selector: '.markdown-body'
+        });
+    });
+    </script>
+</body>
+</html>

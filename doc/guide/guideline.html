@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS编码规范</title>
+    <link rel="stylesheet" href="/cdn/css/base.css" media="screen">
+    <link rel="stylesheet" href="/cdn/css/css-standard.css" media="screen">
+
+
+</head>
+<body>
+<nav class="mod-head-nav">
+	<div class="content">
+		<h1><a href="">一站式平台</a></h1>
+		<ul>
+			<li><a href="">首页</a></li>
+			<li><a href="">规范</a></li>
+			<li><a href="">组件</a></li>
+			<li><a href="">基本CSS样式</a></li>
+			<li><a href="">组件</a></li>
+			<li><a href="">JS组件</a></li>
+		</ul>
+	</div>
+</nav>
+<div class="mod-tit-box">
+    <div class="content">
+        <h1>CSS编码规范</h1>
+        <p>规范是项目的基石，遵循良好的编码规范，能让我们的工作事半功倍</p>
+    </div>
+</div>
+<iframe src="guideline_iframe.html" width="100%" frameborder="0" id="pageCont"></iframe>
+<script type="text/javascript" src="/cdn/js/jquery-1.8.0.min.js"></script>
+<script>
+	(function setIframeHeight () {
+		var bnHeight = $(".mod-tit-box").height();
+		var winHeight = document.documentElement.clientHeight;
+		iframeHeight = winHeight-bnHeight-50;
+		$("#pageCont").attr({
+			height: iframeHeight
+		});
+	})()//为iframe重新设置高度
+</script>
+</body>
+</html>
