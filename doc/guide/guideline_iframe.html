@@ -30,7 +30,19 @@
 <p><code>http://css2.pingan.com/app_css/g/base.css</code></p>
 <h2>CSS文件编码</h2>
 <p>统一使用<code>UTF-8</code>文件编码方式</p>
-<h2>CSS文件命名用下划线做间隔</h2>
+
+<h2>CSS文件引用</h2>
+
+<ul>
+    <li>一律使用link的方式调用外部样式</li>
+    <li>不允许在页面中使用 <code>&lt;style&gt;</code> 块；</li>
+    <li>不允许在 <code>&lt;style&gt;</code> 块中使用 <code>@import</code>；</li>
+    <li>不允许使用 <code>style</code> 属性写行内样式。</li>
+</ul>
+<blockquote>一般情况下，在页面中只允许使用 <link /> 标签来引用CSS文件</blockquote>
+
+<h2>CSS文件命名格式</h2>
+<p>CSS文件命名用下划线做间隔</p>
 <p>推荐命名要求：<strong>栏目/页面/活动名/类型+HTML页面名/CSS文件功能</strong></p>
 <ul>
     <li>能描述实际意义的<b>英文单词</b></li>
@@ -39,20 +51,33 @@
     <li>单词之间用<b>下划线</b>间隔</li>
     <li>命名要有实际意义，避免使用123，abc等无意义的名字，如test1.css, test2.css, abc.css</li>
 </ul>
-<h3>推荐的做法</h3>
+<p><b>推荐</b></p>
 <p>例如两个注册的功能页，其中一个注册表单页，另外一个注册结果页，CSS文件分别命名成<code>register_form.css</code>和<code>register_result.css</code></p>
-<h3>糟糕的做法</h3>
+<p><b>不推荐</b></p>
 <p><code>register_Form.css</code>，不推荐这种下划线与驼峰混搭的命名方式，因为加入驼峰并不会给我们代码带来什么好处，而且看起来并不那么fasion和简约</p>
 <p><code>register1.css</code> <code>register2.css</code>，1和2不能表示实际意义，不便于后期的拓展性。如果到了下个版本，两个步骤中间再加一个注册步骤呢？再把<code>register2.css</code>改成<code>register3.css</code>，再新建一个<code>register2.css</code>吗？</p>
 
-<h2>class命名</h2>
+<h2>class命名规则</h2>
 <ul>
     <li>能描述实际意义的<b>英文单词</b></li>
     <li><b>首字符必须是英文字母，禁用其他符号或数字</b></li>
     <li><b>字母全部小写</b></li>
     <li>单词之间用<b>下划线</b>间隔</li>
+    <li>不允许使用拼音（约定俗成的除外，如：pingan, youku, baidu）,更不允许拼音和英文混搭(如：icon_tupian)</li>
     <li>命名要有实际意义，避免使用123，abc等无意义的名字，如.test1, .test2, .abc</li>
+    <li>不依据表现形式来命名</li>
+    <li>可根据内容来命名</li>
+    <li>可根据功能来命名</li>
 </ul>
+
+<p><b>不推荐：</b></p>
+
+<pre>left, right, center, red, black</pre>
+<blockquote>如果某一天产品经理一拍脑袋，要求你把左边的内容换到右边，中间的换到左边，右边的换到中间，红色换成绿色，黑色换成白色，你是不是就傻了眼？你的class命名还有意义么？</blockquote>
+
+<p><b>推荐：</b></p>
+
+<pre>nav, aside, news, type, search</pre>
 <p>PS.<b>为什么是下划线class命名方式？</b></p>
 <ol>
     <li>为了与JS变量名驼峰命名方式有所区别，故不选驼峰命名。</li>
@@ -67,104 +92,9 @@ var $demo = $("sub-nav");
     </li>
     <li>下划线命名有点好处是：在很多编辑器里双击即可选中，而中划线则无法达到</li>
 </ol>
-<p>本guideline规定用<b>下划线</b>命名间隔。你肯定有千百个反驳的理由，“规范”是没有绝对权威绝对好的，你就不要花过多时间纠结于此了。</p>
+<p>我们使用中划线 “-” 作为连接字符，而不是下划线 "_"。</p>
+<p>本guideline规定用<b>下划线</b>"_"命名间隔,而不是驼峰或中划线"-",各种命名方式都有很多支持者，你肯定有千百个反驳的理由，“规范”是没有绝对权威绝对好的，我们只选择最合适的，请不要花过多时间纠结于此。</p>
 
-<h2>CSS文件注释</h2>
-<div class="highlight">
-<pre>
-/**
-    *@Description: 项目名称（可写中文）
-    *@Author: xukai (建议用英文字母)
-    *@Last Modify: xukai (2012-05-10)
-*/
-</pre>
-</div>
-<p>在CSS文件头部需要注明项目名称和说明、代码作者名、更新时间和作者名</p>
-<h2>减少使用滤镜和表达式</h2>
-<p>滤镜非常消耗性能，不推荐使用。</p>
-<p>应该遵循一个原则：能用JS解决的问题不用CSS，能用CSS解决的问题不用JS。</p>
-<p>CSS内嵌计算和表达式显然不是CSS擅长的事情，不建议写在CSS中，请尽量用JS的方式来解决。</p>
-<h2>字体不要用中文来定义</h2>
-<p>用英文字体名称。</p>
-<p>例如：<code>font-family:'微软雅黑';</code> 不建议用这种写法，在长久的代码生命周期中，会造成不可预见的问题。比如某个同事某一天用了非UTF-8编码方式，中文可能是个乱码，更新CSS提交后就会造成BUG。</p>
-<h2>每个class的CSS属性都写在一行</h2>
-<p>以便于模块化的展现。</p>
-<p>例如：</p>
-<pre>
-.mod-side-nav{float: left;margin-top: 20px;}
-.mod-side-nav li{width: 200px; height: 20px;margin-bottom: 8px;}
-.mod-side-nav li strong{font-size: 14px;}
-.mod-side-nav a{font-size: 12px; line-height: 20px;display:block;padding-left: 10px;color: #999;border-left: 1px solid #FFF;}
-.mod-side-nav a:hover{color: #333;border-left: 1px solid #F60;}
-.mod-side-nav .sub-t{margin-left: 15px;}
-</pre>
-<p>如果每个属性换行，就是这样的：</p>
-<div class="highlight">
-<pre>
-.mod-side-nav {
-    float: left;
-    margin-top: 20px;
-}
-.mod-side-nav li {
-    width: 200px;
-    height: 20px;
-    margin-bottom: 8px;
-}
-.mod-side-nav li strong {
-    font-size: 14px;
-}
-.mod-side-nav a {
-    font-size: 12px;
-    line-height: 20px;
-    display: block;
-    padding-left: 10px;
-    color: #999;
-    border-left: 1px solid #FFF;
-}
-.mod-side-nav a:hover {
-    color: #333;
-    border-left: 1px solid #F60;
-}
-.mod-side-nav .sub-t {
-    margin-left: 15px;
-}
-</pre>
-</div>
-<p>这样代码的行数就会变的很多，比较难从纵向区分我们的模块化CSS代码。当然，我们会尊重你的个人习惯，如果你坚持觉得换行的写法比较舒服，那就多按回车键换行吧。</p>
-<h2>CSS模块注释</h2>
-<p>注释写在对应的模块上方，无换行。注释与上方的CSS模块空一行。</p>
-<p><b>示例：</b></p>
-<div class="highlight">
-<pre>
-/**
-    @Name:模块名称
-    @Level:级别(Global, Channel, Function)
-    @Dependent:依赖关系,该模块必须依赖于何种模块
-    @Sample:用法示例,或指出改模块所作用的直接页面
-    @Explain:附加说明
-    @Author:创建者 日期(两位数年月日时)
-    @Last Modify:最终修改者 日期(两位数年月日时)
-*/
-.mod-side-nav{float: left;margin-top: 20px;}
-.mod-side-nav li{width: 200px; height: 20px;margin-bottom: 8px;}
-.mod-side-nav li strong{font-size: 14px;}
-.mod-side-nav a{font-size: 12px; line-height: 20px;display:block;padding-left: 10px;color: #999;border-left: 1px solid #FFF;}
-.mod-side-nav a:hover{color: #333;border-left: 1px solid #F60;}
-.mod-side-nav .sub-t{margin-left: 15px;}
-</pre>
-</div>
-<p><b>CSS定义的HTML模块是：</b></p>
-
-<h2>CSS属性的书写顺序</h2>
-<p>按照元素模型由外及内,由整体到细节书写,大致分为五组:</p>
-<ol>
-    <li>位置:position,left,right,float</li>
-    <li>盒模型属性:display,margin,padding,width,height</li>
-    <li>边框与背景:border,background</li>
-    <li>段落与文本:line-height,text-indent,font,color,text-decoration,...</li>
-    <li>其他属性:overflow,cursor,visibility,...</li>
-</ol>
-<p>之所以有这样的建议，一是为了统一书写代码的风格，二是能提升CSS渲染页面的效率（待考证）</p>
 <h2>class常用命名</h2>
 <table>
     <tr>
@@ -280,7 +210,7 @@ var $demo = $("sub-nav");
         <th>搭档</th>
         <th>友链</th>
         <th>版权</th>
-        <th></th>
+        <th>信息</th>
         <th></th>
         <th></th>
     </tr>
@@ -292,7 +222,7 @@ var $demo = $("sub-nav");
         <td>partner</td>
         <td>friend_links</td>
         <td>copyright</td>
-        <td></td>
+        <td>info</td>
         <td></td>
         <td></td>
     </tr>
@@ -345,6 +275,170 @@ var $demo = $("sub-nav");
         <td></td>
     </tr>
 </table>
+
+<h2>class和ID使用规则</h2>
+
+<p>CSS一般只用class，ID留给javascript来调用</p>
+
+<h2>CSS编码格式</h2>
+<ul>
+    <li>每个选择器后的CSS代码不要换行</li>
+    <li>分号后保持一个空格</li>
+    <li>冒号后保持一个空格</li>
+    <li>如有多个选择器，每个选择器占一行</li>
+    <li>多选择器后的逗号不加空格</li>
+</ul>
+<p><b>不推荐：</b></p>
+<pre>
+h1,h2,h3,h4{font-weight:normal;}
+.mod_detail{ 
+    width:400px; 
+    height:300px; 
+}
+.mod_detail .current,.mod_detail .news,.mod_detail .content{ color:#000; }
+</pre>
+<p><b>推荐：</b></p>
+<pre>
+h1,
+h2,
+h3,
+h4{font-weight:normal;}
+.mod_detail{width: 400px; height: 300px;}
+.mod_detail .current,
+.mod_detail .news,
+.mod_detail .content{color:#000;}
+</pre>
+
+<h2>命名空间前缀</h2>
+<table>
+    <tr>
+        <th>前缀</th>
+        <th>说明</th>
+        <th>示例</th>
+    </tr>
+    <tr>
+        <td>mod_</td>
+        <td>模块命名前缀</td>
+        <td>mod_nav_bar</td>
+    </tr>
+    <tr>
+        <td>cell_</td>
+        <td>通用元件命名前缀</td>
+        <td>cell_news_list</td>
+    </tr>
+    <tr>
+        <td>layout_</td>
+        <td>页面布局框架命名前缀</td>
+        <td>layout_col_a</td>
+    </tr>
+    <tr>
+        <td>js_</td>
+        <td>特为JS调用的命名，可以用于ID和class,不涉及CSS样式</td>
+        <td>js_reg_submit 或 jsRegSubmit</td>
+    </tr>
+    <tr>
+        <td>plug_</td>
+        <td>JS插件模块命名，一整套包含HTML、CSS、JS的功能块，最外层DOM请带上命名空间前缀plug</td>
+        <td>plug_popup, plug_slider</td>
+    </tr>
+</table>
+
+<blockquote>
+    模块化CSS代码，模块内所有元素必须继承自模块的最外层CSS命名空间，模块、元件、布局的命名必须拥有命名空间前缀.这样能有效的避免命名冲突，避免过多的全局class造成全局污染。
+</blockquote>
+
+<p><b>推荐：</b></p>
+<pre>
+.mod_detail .info { sRules; }
+.mod_detail .current { sRules; }
+.mod_detail .news { sRules; }
+.mod_detail .content { sRules; }
+</pre>
+
+<p><b>不推荐：</b></p>
+<pre>
+.info { sRules; }
+.current { sRules; }
+.news { sRules; }
+.content { sRules; }
+</pre>
+
+<h2>CSS文件注释</h2>
+<div class="highlight">
+<pre>
+/**
+    *@Description: 项目名称（可写中文）
+    *@Author: xukai (建议用英文字母)
+    *@Last Modify: xukai (2012-05-10)
+*/
+</pre>
+</div>
+<p>在CSS文件头部需要注明项目名称和说明、代码作者名、更新时间和作者名</p>
+<h2>减少使用滤镜和表达式</h2>
+<p>滤镜非常消耗性能，不推荐使用。</p>
+<p>应该遵循一个原则：能用JS解决的问题不用CSS，能用CSS解决的问题不用JS。</p>
+<p>CSS内嵌计算和表达式显然不是CSS擅长的事情，不建议写在CSS中，请尽量用JS的方式来解决。</p>
+<h2>字体不要用中文来定义</h2>
+<p>用英文字体名称。</p>
+<p>例如：<code>font-family:'微软雅黑';</code> 不建议用这种写法，在长久的代码生命周期中，会造成不可预见的问题。比如某个同事某一天用了非UTF-8编码方式，中文可能是个乱码，更新CSS提交后就会造成BUG。</p>
+<h2>每个class的CSS属性都写在一行</h2>
+<p>以便于模块化的展现。</p>
+<p>例如：</p>
+<pre>
+.mod_side_nav{float: left;margin-top: 20px;}
+.mod_side_nav li{width: 200px; height: 20px;margin-bottom: 8px;}
+.mod_side_nav li strong{font-size: 14px;}
+.mod_side_nav a{font-size: 12px; line-height: 20px;display:block;padding-left: 10px;color: #999;border-left: 1px solid #FFF;}
+.mod_side_nav a:hover{color: #333;border-left: 1px solid #F60;}
+.mod_side_nav .sub_t{margin-left: 15px;}
+</pre>
+<p>如果每个属性换行，就是这样的：</p>
+<div class="highlight">
+<pre>
+.mod_side_nav {float: left; margin-top: 20px;}
+.mod_side_nav li {width: 200px; height: 20px; margin-bottom: 8px;}
+.mod_side_nav li strong {font-size: 14px;}
+.mod_side_nav a {font-size: 12px; line-height: 20px; display: block; padding-left: 10px; color: #999; border-left: 1px solid #FFF;}
+.mod_side_nav a:hover {color: #333; border-left: 1px solid #F60;}
+.mod_side_nav .sub_t {margin-left: 15px;}
+</pre>
+</div>
+<p>这样代码的行数就会变的很多，比较难从纵向区分我们的模块化CSS代码。当然，我们会尊重你的个人习惯，如果你坚持觉得换行的写法比较舒服，那就多按回车键换行吧。</p>
+<h2>CSS模块注释</h2>
+<p>注释写在对应的模块上方，无换行。注释与上方的CSS模块空一行。</p>
+<p><b>示例：</b></p>
+<div class="highlight">
+<pre>
+/**
+    @Name:模块名称
+    @Level:级别(Global, Channel, Function)
+    @Dependent:依赖关系,该模块必须依赖于何种模块
+    @Sample:用法示例,或指出改模块所作用的直接页面
+    @Explain:附加说明
+    @Author:创建者 日期(两位数年月日时)
+    @Last Modify:最终修改者 日期(两位数年月日时)
+*/
+.mod_side_nav{float: left;margin-top: 20px;}
+.mod_side_nav li{width: 200px; height: 20px;margin-bottom: 8px;}
+.mod_side_nav li strong{font-size: 14px;}
+.mod_side_nav a{font-size: 12px; line-height: 20px;display:block;padding-left: 10px;color: #999;border-left: 1px solid #FFF;}
+.mod_side_nav a:hover{color: #333;border-left: 1px solid #F60;}
+.mod_side-nav .sub_t{margin-left: 15px;}
+</pre>
+</div>
+<p><b>CSS定义的HTML模块是：</b></p>
+
+<h2>CSS属性的书写顺序</h2>
+<p>按照元素模型由外及内,由整体到细节书写,大致分为五组:</p>
+<ol>
+    <li>位置:position,left,right,float</li>
+    <li>盒模型属性:display,margin,padding,width,height</li>
+    <li>边框与背景:border,background</li>
+    <li>段落与文本:line-height,text-indent,font,color,text-decoration,...</li>
+    <li>其他属性:overflow,cursor,visibility,...</li>
+</ol>
+<p>之所以有这样的建议，一是为了统一书写代码的风格，二是能提升CSS渲染页面的效率（待考证）</p>
+
 <h2>清浮动CSS</h2>
 <p>对于IE浏览器使用<code>zoom:1</code>使盒子触发haslayout，可达到清浮动的目的。</p>
 <p>对于非IE浏览器可以结合<code>:after</code>伪类达到清浮动的目的。</p>
@@ -373,7 +467,7 @@ var $demo = $("sub-nav");
 <p><b>不推荐做成公用类，将class赋值到HTML标签上，例如：</b></p>
 <pre>
 .clearfix{zoom:1;}
-.clearfix:after{display:block;clear:both;content:"";height:0;}
+.clearfix:after{display:block; clear:both; content:""; height:0;}
 </pre>
 <pre>
 &lt;div class="mod_reg clearfix"&gt;
@@ -393,6 +487,42 @@ var $demo = $("sub-nav");
 &lt;/div&gt;
 </pre>
 <p>这样会“污染”HTML，给HTML添加无意义的空标签。</p>
+
+<h2>CSS hack</h2>
+<ul>
+    <li>尽量不好使用hack，另可换一种方法来实现</li>
+    <li>如果hack费用不可，请用一种比较靠谱的hack</li>
+</ul>
+<blockquote>
+    使用hack，向后兼容性比较差，hack可能会被浏览器更新版本后修复
+</blockquote>
+
+<p><b>常用CSS hack</b></p>
+
+<pre>
+.test {
+　　　color: #000;       /* 所有浏览器 */
+　　　color: #111\9;     /* 所有IE */
+　　　color: #222\0;     /* IE8 及以上版本, 非Webkit内核的Opera */
+　　　color: #333\9\0;   /* IE8 及以上版本 */
+　　　color: #444\0/;    /* IE8 及以上版本 */
+　　　*color: #666;      /* IE7和IE6 */
+　　　_color: #777;      /* IE6 */
+}
+</pre>
+
+<p><b>IE条件注释</b></p>
+
+<h2>其他约定</h2>
+<ul>
+    <li>
+        <h3>最后一条CSS属性末尾必须加分号</h3>
+        <p><b>推荐：</b></p>
+        <pre>.mod_side_nav{float: left; margin-top: 20px;}</pre>
+        <p><b>不推荐</b></p>
+        <pre>.mod_side_nav{float: left; margin-top: 20px}</pre>
+    </li>
+</ul>
 <h1>HTML规范</h1>
 <h1>javascript规范</h1>
             </article>

@@ -3008,8 +3008,7 @@ table.capped-list.mini-icons .mini-icon {
 }
 .markdown-body table th, .markdown-body table td {
     border: 1px solid #ddd;
-    padding: 6px 13px;
-    text-align: center;
+    padding: 6px 13px;text-align: left;
 }
 .markdown-body table th {
     font-weight: bold;
