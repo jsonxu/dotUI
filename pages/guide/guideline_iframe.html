@@ -479,7 +479,7 @@ h4{font-weight:normal;}
     使用hack，向后兼容性比较差，hack可能会被浏览器更新版本后修复
 </blockquote>
 
-<p><b>常用CSS hack</b></p>
+<p><b>常用CSS hack：</b></p>
 
 <pre>
 .test {
@@ -493,18 +493,80 @@ h4{font-weight:normal;}
 }
 </pre>
 
-<p><b>IE条件注释</b></p>
-
-<h2>其他约定</h2>
+<p><b>IE条件注释：</b></p>
+<pre>
+&lt;!--[if IE]&gt;用于 IE &lt;![endif]--&gt;
+&lt;!--[if IE 6]&gt;用于 IE6 &lt;![endif]--&gt;
+&lt;!--[if IE 7]&gt;用于 IE7 &lt;![endif]--&gt;
+&lt;!--[if IE 8]&gt;用于 IE8 &lt;![endif]--&gt;
+&lt;!--[if IE 9]&gt;用于 IE9 &lt;![endif]--&gt;
+&lt;!--[if gt IE 6]&gt;用于 IE6 以上版本&lt;![endif]--&gt;
+&lt;!--[if lte IE 7]&gt;用于 IE7或更低版本 &lt;![endif]--&gt;
+&lt;!--[if gte IE 8]&gt;用于 IE8 或更高版本 &lt;![endif]--&gt;
+&lt;!--[if lt IE 9]&gt;用于 IE9 以下版本&lt;![endif]--&gt;
+&lt;!--[if !IE]&gt; --&gt;用于非 IE &lt;!-- &lt;![endif]--&gt;
+</pre>
 <ul>
-    <li>
-        <h3>最后一条CSS属性末尾必须加分号</h3>
-        <p><b>推荐：</b></p>
-        <pre>.mod_side_nav{float: left; margin-top: 20px;}</pre>
-        <p><b>不推荐</b></p>
-        <pre>.mod_side_nav{float: left; margin-top: 20px}</pre>
-    </li>
+    <li>lt ：就是Less than的简写，也就是小于的意思。</li>
+    <li>lte ：就是Less than or equal to的简写，也就是小于或等于的意思。</li>
+    <li>gt ：就是Greater than的简写，也就是大于的意思。</li>
+    <li>gte：就是Greater than or equal to的简写，也就是大于或等于的意思。</li>
+    <li>!：就是不等于的意思，跟javascript里的不等于判断符相同。</li>
 </ul>
+
+<h2>合理使用CSS选择器</h2>
+<p><b>避免使用标签+class/ID类型的选择器</b></p>
+<p><b>避免画蛇添足：</b></p>
+<pre>
+.mod_news div.hot{color: #F00;}
+.mod_news li#list{color: #F00}
+</pre>
+<p><b>推荐化繁为简：</b></p>
+<pre>
+.mod_news .hot{color: #F00;}
+.mod_news #list{color: #F00}  //规范规定CSS不要用ID命名，这里只是做个示例
+</pre>
+
+<p><b>避免选择器嵌套层级过深，建议控制在三层以内</b></p>
+
+<p><b>不推荐：</b></p>
+<pre>.mod_news .content .box .list .tips{color: #F00}</pre>
+
+<p><b>推荐：</b></p>
+<pre>.mod_news .content .tips{color: #F00}</pre>
+
+<h2>属性缩写与拆分</h2>
+<p><b>不推荐：</b></p>
+<pre>
+.mod_news{margin-left: 10px; margin-right: 20px; margin-bottom: 30px; margin-left: 40px;
+</pre>
+<p><b>推荐</b></p>
+<pre>
+.mod_news{margin:10px 20px 30px 40px;}
+</pre>
+<p><b>不推荐：</b></p>
+<pre>
+.mod_news{border-width: 1px; border-style: solid; border-color: #000 #000 #F60;}
+</pre>
+<p><b>推荐：</b></p>
+<pre>
+.mod_news{border: 1px solid #000; border-bottom-color: #F60;}
+</pre>
+
+<h2>背景图片</h2>
+<h3>小图标必须合并</h3>
+<p>通过CSS Sprite的方法将小图片合并成一张大背景图，减少HTTP请求数达到性能优化的目的，建议你使用工程化的方法，FIS工程化中自带的小图片自动合并优化功能，将为你减少很多工作量，给后期维护也带来许多方便。</p>
+<h3>图片格式选择与优化</h3>
+<ul>
+    <li>色彩丰富的图片使用JPG格式，用photoshop输出，压缩比设置60-70%左右，保持不明显影响视觉效果为准</li>
+    <li>色彩不丰富的图片，优先使用PNG8格式。</li>
+    <li>除非是gif动画图片，请尽量少使用gif格式。</li>
+    <li>对于使用到半透明滤镜的图片才使用PNG24格式，但要注意IE6的兼容性</li>
+</ul>
+
+<h2>编后语</h2>
+<p>少说话，多做事，才能保持团队工作的高效。话少了，就需要更多默契，默契就从每个人遵守一致的规范而来。无需沟通就很熟悉他人的代码编写习惯，就像是自己写的，不至于看到不喜欢的代码而反感和抗拒。遵守一致的规范，有效减少沟通成本，提升代码质量，提升可维护性。编写规范、整洁、漂亮代码是我们一致的目标。</p>
+
 <h1>HTML规范</h1>
 <h1>javascript规范</h1>
 <!--inline[../../tpl/common/iframe_foot.tpl]-->
