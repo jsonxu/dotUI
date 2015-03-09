@@ -24,6 +24,203 @@
 <p>设计模式（Design pattern）是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性。 毫无疑问，设计模式于己于他人于系统都是多赢的；设计模式使代码编制真正工程化；设计模式是软件工程的基石脉络，如同大厦的结构一样。</p>
 <p>虽然HTML和CSS是一种弱逻辑性的语言，但是也应该像高级编程语言一样遵循一定的规律和方法，使代码保持健壮性、可拓展性、可读性和可维护性。</p>
 <p>本文档的设计模式是为本公司项目所设计，请严格遵循这种编码的思想，如有意见和建议请向本文档的作者提出并修订。</p>
+
+<h2>模块化</h2>
+<h2>元件化</h2>
+<h2>组件化</h2>
+<h2>栅格化</h2>
+<h2>主题化</h2>
+<h2>语义化</h2>
+
+<h1>HTML规范</h1>
+
+<h2>DOCTYPE</h2>
+<p><b>统一使用HTML5标准文档模型 <code>&lt;!DOCTYPE html&gt;</code></b></p>
+<blockquote>在DOCTYPE文档声明代码前不要加任何代码或空格，以免文档进入其他模式</blockquote>
+
+<h2>通用HTML模板</h2>
+<pre>
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;页面标题&lt;/title&gt;
+    &lt;meta name="description" content="网页简介和说明"/&gt;
+    &lt;meta name="keywords" content="网页关键词"/&gt;
+    &lt;meta name="author" content="网站名/机构名" /&gt;
+    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge"&gt;
+    &lt;meta name="renderer" content="webkit"&gt;
+    &lt;link rel="stylesheet" href="xxx.css"/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+
+&lt;script src="xxx.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+<h2>HTML文档编码格式</h2>
+<p>统一使用UTF-8编码格式</p>
+
+<h2>CSS和javascript代码和文件</h2>
+<ul>
+    <li>
+        <p>严格做到结构、表现、行为分离的准则，CSS和JS代码不要直接写在HTML里面混搭，尽量外链CSS和JS文件。</p>
+    </li>
+    <li>
+        <p>CSS文件统一外链并放置在head标签内</p>
+    </li>
+    <li>
+        <p>除JS框架文件(如：jquery.js、require.js)，其他JS文件统一放在页面底部(body闭合标签上面，如上代码)</p>
+        <blockquote>
+            如此规范，是出于页面性能方面的考虑，<b>若JS文件放在head里，可能会阻塞页面加载和渲染。</b>
+        </blockquote>
+    </li>
+</ul>
+
+<h2>图片文件</h2>
+<ul>
+    <li>
+        <p>img标签必须有alt属性和值，值是对图片的正确描述，如：产品名称</p>
+    </li>
+    <li>img单标签必须用“/”封闭</li>
+</ul>
+<p><b>推荐：</b></p>
+<pre>
+&lt;img src="xxx.jpg" alt="图片名称" /&gt;
+</pre>
+
+<h2>标签闭合</h2>
+<p>任何标签都必须有闭合</p>
+<p><b>不推荐：</b></p>
+<pre>
+&lt;p&gt;balabalabala……
+&lt;img src="xxx.jpg" alt="xxx"&gt;
+</pre>
+<p><b>推荐：</b></p>
+<pre>
+&lt;p&gt;balabalabala……&lt;/p&gt;
+&lt;img src="xxx.jpg" alt="xxx"/&gt;
+</pre>
+
+<h2>标签嵌套</h2>
+<ul>
+    <li>
+        <p>避免错误的嵌套</p>
+        <p><b>严禁：</b></p>
+<pre>
+&lt;p&gt;
+    &lt;span&gt;
+        文字文字
+    &lt;/p&gt;
+&lt;/span&gt;
+</pre>
+        <p><b>推荐：</b></p>
+<pre>
+&lt;p&gt;
+    &lt;span&gt;
+        文字文字 
+    &lt;/span&gt;
+&lt;/p&lt;
+</pre> 
+    </li>
+    <li>
+        <p>避免行级元素内嵌套块级元素</p>
+        <p><b>不推荐</b></p>
+<pre>
+    &lt;span&gt;
+        &lt;div&gt;文字文字&lt;/div&gt;
+    &lt;/span&gt;
+    &lt;a href=""&gt;
+        &lt;p&gt;文字文字&lt;/p&gt;
+    &lt;/a&gt;
+</pre>
+        <p><b>推荐：</b></p>
+<pre>
+    &lt;span&gt;
+        &lt;span&gt;文字文字&lt;/span&gt;
+    &lt;/span&gt;
+    &lt;a href=""&gt;
+        &lt;span&gt;文字文字&lt;/span&gt;
+    &lt;/a&gt;
+</pre>
+    </li>
+    <li>
+        <p>避免行级元素与块级元素在同一个DOM层级</p>
+        <p><b>不推荐：</b></p>
+<pre>
+&lt;div class="mod_reg clearfix"&gt;
+    &lt;span class="side_bar"&gt;float left&lt;/span&gt;
+    &lt;div class="content"&gt;
+        &lt;strong&gt;文字文字&lt;/strong&gt;
+        &lt;p&gt;我也是文字&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+        <p><b>推荐：</b></p>
+<pre>
+&lt;div class="mod_reg"&gt;
+    &lt;div class="side_bar"&gt;float left&lt;/div&gt;
+    &lt;div class="content"&gt;
+        &lt;p&gt;文字文字&lt;/p&gt;
+        &lt;p&gt;我也是文字&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+    </li>
+</ul>
+
+<h2>表单元素</h2>
+<p>为表单元素label加上for属性</p>
+<p><b>不推荐：</b></p>
+<pre>
+&lt;input type="radio" name="color" value="0" /&gt;&lt;label&gt;选项1&lt;/label&gt;
+&lt;input type="radio" name="color" value="1" /&gt;&lt;label&gt;选项2&lt;/label&gt;
+</pre>
+<p><b>推荐：</b></p>
+<pre>
+&lt;input type="radio" id="blue" name="color" value="0" /&gt;&lt;label for="blue"&gt;选项1&lt;/label&gt;
+&lt;input type="radio" id="pink" name="color" value="1" /&gt;&lt;label for="pink"&gt;选项2&lt;/label&gt;
+</pre>
+<blockquote>
+    for属性能让点击label标签的时候，同时focus到对应的 input 和 textarea上，增加响应区域
+</blockquote>
+
+<h2>HTML注释</h2>
+<p>优秀的程序员会写一手漂亮的代码注释，不仅要让机器读懂你的语言，而且要让人能更容易的读懂你的语言</p>
+<p>每一个模块都必须加上“开始-结尾”的注释，增强代码可读性，以防后端工程师套错页面</p>
+<p><b>规则：</b></p>
+<p>在模块开始标签之前加<code>&lt;--模块class名--&gt;</code></p>
+<p>在模块结尾标签之后加<code>&lt;--/模块class名--&gt;</code></p>
+<p>类似于HTML标签的语法形式，无需中文，只需要复制模块名字，达到区分模块头尾的目的即可</p>
+<p><b>推荐</b></p>
+<pre>
+&lt;--mod_reg--&gt;
+&lt;div class="mod_reg"&gt;
+    &lt;div class="side_bar"&gt;float left&lt;/div&gt;
+    &lt;div class="content"&gt;
+        &lt;p&gt;文字文字&lt;/p&gt;
+        &lt;p&gt;我也是文字&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;--/mod_reg--&gt;
+</pre>
+
+<h2>HTML代码其他细节</h2>
+<ul>
+    <li>标签必须小写</li>
+    <li>标签上的属性值必须加双引号，必须有值</li>
+    <li>标签必须有封口</li>
+    <li>保持良好的HTML代码层级关系，子级的HTML空一个TAB键</li>
+    <li>拒绝多div癖，多class癖</li>
+    <li>每一对标签另起一行</li>
+    <li>编写语义化的HTML(请参考HTML和CSS设计模式中语义化的章节)</li>
+</ul>
+
+<h2>语义化</h2>
+
+
 <h1>CSS规范</h1>
 <h2>CSS reset</h2>
 <p>在开始CSS编码之前，有很多的CSS属性都必须被reset，避免浏览器出现各种兼容性问题。</p>
@@ -65,7 +262,7 @@
     <li><b>字母全部小写</b></li>
     <li>单词之间用<b>下划线</b>间隔</li>
     <li>不允许使用拼音（约定俗成的除外，如：pingan, youku, baidu）,更不允许拼音和英文混搭(如：icon_tupian)</li>
-    <li>命名要有实际意义，避免使用123，abc等无意义的名字，如.test1, .test2, .abc</li>
+    <li>命名要有实际意义，避免使用上下左右命名模块名称、颜色名称、数字123、abc等无意义的名字，如.test1, .test2, .abc,.ff6600,left_bar</li>
     <li>不依据表现形式来命名</li>
     <li>可根据内容来命名</li>
     <li>可根据功能来命名</li>
@@ -79,7 +276,8 @@
 <p><b>推荐：</b></p>
 
 <pre>nav, aside, news, type, search</pre>
-<p>PS.<b>为什么是下划线class命名方式？</b></p>
+<blockquote>
+<p><b>为什么是下划线class命名方式？</b></p>
 <ol>
     <li>为了与JS变量名驼峰命名方式有所区别，故不选驼峰命名。</li>
     <li>
@@ -95,6 +293,7 @@ var $demo = $("sub-nav");
 </ol>
 <p>我们使用中划线 “-” 作为连接字符，而不是下划线 "_"。</p>
 <p>本guideline规定用<b>下划线</b>"_"命名间隔,而不是驼峰或中划线"-",各种命名方式都有很多支持者，你肯定有千百个反驳的理由，“规范”是没有绝对权威绝对好的，我们只选择最合适的，请不要花过多时间纠结于此。</p>
+</blockquote>
 
 <h2>class常用命名</h2>
 <table>
@@ -581,12 +780,12 @@ h4{font-weight:normal;}
     <li>色彩不丰富的图片，优先使用PNG8格式。</li>
     <li>除非是gif动画图片，请尽量少使用gif格式。</li>
     <li>对于使用到半透明滤镜的图片才使用PNG24格式，但要注意IE6的兼容性</li>
+    <li>合并后图片大小不宜超过50K，建议大小在20K-50K之间</li>
 </ul>
 
 <h2>编后语</h2>
-<p>少说话，多做事，才能保持团队工作的高效。话少了——意思是减少无必要的沟通成本，就需要团队成员之间形成更多默契，默契就从每位工程师遵守一致的规范而来。无需沟通就很熟悉他人的代码编写习惯，就像是自己写的，不至于看到不喜欢的代码而反感和抗拒。遵守一致的规范，可有效减少沟通成本，提升代码质量，提升可维护性。编写规范、整洁、漂亮代码是我们一致的目标。</p>
+<p>少说话，多做事，才能保持团队工作的高效。少说话——意思是减少无必要的沟通成本，就需要团队成员之间形成更多默契，默契就从每位工程师遵守一致的规范而来。无需沟通就很熟悉他人的代码编写习惯，就像是自己写的，不至于看到不喜欢的代码而反感和抗拒。遵守一致的规范，可有效减少沟通成本，提升代码质量，提升可维护性。编写规范、整洁、漂亮代码是我们一致的目标。</p>
 
-<h1>HTML规范</h1>
 <h1>javascript规范</h1>
             </article>
         </div>
