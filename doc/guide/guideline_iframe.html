@@ -18,6 +18,7 @@
         </div>
         <div id="readme">
             <article class='markdown-body'>
+<!--
 <h1>HTML和CSS设计模式</h1>
 <h2>起源</h2>
 <p>先来说说什么是设计模式，百度百科上有如下一段解释：</p>
@@ -31,7 +32,21 @@
 <h2>栅格化</h2>
 <h2>主题化</h2>
 <h2>语义化</h2>
-
+-->
+<h1>浏览器兼容性规范</h1>
+<h2>前端工程师自测标准</h2>
+<p>PC端: IE7,IE8,IE9,IE10,IE11及以上，Chrome，Safari，FIREFOX</p>
+<p>移动端: ios默认，android默认，QQ Browser，UC</p>
+<h2>测试工程师测试标准</h2>
+<p>Pc端: IE7,IE8,IE9,IE10,IE11及以上，Chrome，Safari，FIREFOX, LB  BROWSER （猎豹）,UC  WEB ,奇虎360安全浏览器</p>
+<p>移动端: ios默认，android默认，QQ Browser，UC</p>
+<blockquote>以上都兼容最新版本，及用户数大的版本，ie，uc系列保证基础功能，平稳退化。</blockquote>
+<h3>注意事项：</h3>
+<ol>
+    <li>LB  BROWSER （猎豹）,UC  WEB , 奇虎360安全浏览器，由于是不同公司内嵌主流内核浏览器，可能会有部分功能的差异，不在前端的自测范围内，但由于访问用户数较多，有问题可排查，保证基础功能。测试会按需检查，保证功能稳定。</li>
+    <li>产品及运营如有对其他版本的浏览器要求，需在PRD中浏览器兼容性里说明，否则按此常规标准开发及测试。</li>
+    <li>一账通登录,注册及网银功能区,需兼容ie6。新版本做好文案引导提示或升级提示。做好优雅降级处理。</li>
+</ol> 
 <h1>HTML规范</h1>
 
 <h2>DOCTYPE</h2>
@@ -792,6 +807,1485 @@ h4{font-weight:normal;}
 <p>少说话，多做事，才能保持团队工作的高效。少说话——意思是减少无必要的沟通成本，就需要团队成员之间形成更多默契，默契就从每位工程师遵守一致的规范而来。无需沟通就很熟悉他人的代码编写习惯，就像是自己写的，不至于看到不喜欢的代码而反感和抗拒。遵守一致的规范，可有效减少沟通成本，提升代码质量，提升可维护性。编写规范、整洁、漂亮代码是我们一致的目标。</p>
 
 <h1>javascript规范</h1>
+
+<h2>
+<a id="user-content-类型" class="anchor" href="#%E7%B1%BB%E5%9E%8B" aria-hidden="true"><span class="octicon octicon-link"></span></a>类型</h2>
+
+<ul>
+<li>
+<p><strong>原始值</strong>: 当你使用一个变量的原始值，赋值到新变量时</p>
+
+<ul>
+<li><code>string字符串</code></li>
+<li><code>number数字型</code></li>
+<li><code>boolean布尔型</code></li>
+<li><code>null空值</code></li>
+<li><code>undefined不存在型</code></li>
+</ul>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> foo <span class="pl-k">=</span> <span class="pl-c1">1</span>;
+<span class="pl-k">var</span> bar <span class="pl-k">=</span> foo;
+
+bar <span class="pl-k">=</span> <span class="pl-c1">9</span>;
+
+<span class="pl-en">console</span><span class="pl-c1">.log</span>(foo, bar); <span class="pl-c">// =&gt; 1, 9</span></pre></div>
+</li>
+<li>
+<p><strong>复杂类型</strong>: 当你把一个数组赋值到新变量上并改变数组内成员的值</p>
+
+<ul>
+<li><code>object对象</code></li>
+<li><code>array数组</code></li>
+<li><code>function函数</code></li>
+</ul>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> foo <span class="pl-k">=</span> [<span class="pl-c1">1</span>, <span class="pl-c1">2</span>];
+<span class="pl-k">var</span> bar <span class="pl-k">=</span> foo;
+
+bar[<span class="pl-c1">0</span>] <span class="pl-k">=</span> <span class="pl-c1">9</span>;
+
+<span class="pl-en">console</span><span class="pl-c1">.log</span>(foo[<span class="pl-c1">0</span>], bar[<span class="pl-c1">0</span>]); <span class="pl-c">// =&gt; 9, 9</span></pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-对象" class="anchor" href="#%E5%AF%B9%E8%B1%A1" aria-hidden="true"><span class="octicon octicon-link"></span></a>对象</h2>
+
+<ul>
+<li>
+<p>使用字面量的方法创建对象</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> item <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Object</span>();
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> item <span class="pl-k">=</span> {};</pre></div>
+</li>
+<li>
+<p>不要使用 <a href="http://es5.github.io/#x7.6.1">javascript保留关键字</a>作为key值. IE8不支持. <a href="https://github.com/airbnb/javascript/issues/61">更多参考信息</a>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> superman <span class="pl-k">=</span> {
+  <span class="pl-k">default</span><span class="pl-k">:</span> { clark<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>kent<span class="pl-pds">'</span></span> },
+  private<span class="pl-k">:</span> <span class="pl-c1">true</span>
+};
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> superman <span class="pl-k">=</span> {
+  defaults<span class="pl-k">:</span> { clark<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>kent<span class="pl-pds">'</span></span> },
+  hidden<span class="pl-k">:</span> <span class="pl-c1">true</span>
+};</pre></div>
+</li>
+<li>
+<p>使用意义接近的单词替代保留关键字</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> superman <span class="pl-k">=</span> {
+  class<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>alien<span class="pl-pds">'</span></span>
+};
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> superman <span class="pl-k">=</span> {
+  klass<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>alien<span class="pl-pds">'</span></span>
+};
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> superman <span class="pl-k">=</span> {
+  type<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>alien<span class="pl-pds">'</span></span>
+};</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-数组" class="anchor" href="#%E6%95%B0%E7%BB%84" aria-hidden="true"><span class="octicon octicon-link"></span></a>数组</h2>
+
+<ul>
+<li>
+<p>使用字面量的方法创建对象</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> items <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Array</span>();
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> items <span class="pl-k">=</span> [];</pre></div>
+</li>
+<li>
+<p>使用数组对象中push的方法替代直接增加数组成员的方法</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> someStack <span class="pl-k">=</span> [];
+
+
+<span class="pl-c">// 不推荐</span>
+someStack[someStack.<span class="pl-c1">length</span>] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>abracadabra<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 推荐</span>
+someStack.<span class="pl-c1">push</span>(<span class="pl-s"><span class="pl-pds">'</span>abracadabra<span class="pl-pds">'</span></span>);</pre></div>
+</li>
+<li>
+<p>当你需要复制一个数组时请使用slice方法 <a href="http://jsperf.com/converting-arguments-to-an-array/7">参考</a></p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> len <span class="pl-k">=</span> items.<span class="pl-c1">length</span>;
+<span class="pl-k">var</span> itemsCopy <span class="pl-k">=</span> [];
+<span class="pl-k">var</span> i;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">for</span> (i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> len; i<span class="pl-k">++</span>) {
+  itemsCopy[i] <span class="pl-k">=</span> items[i];
+}
+
+<span class="pl-c">// 推荐</span>
+itemsCopy <span class="pl-k">=</span> items.<span class="pl-c1">slice</span>();</pre></div>
+</li>
+<li>
+<p>使用slice方法将类似数组一样的对象转换成数组</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">function</span> <span class="pl-en">trigger</span>() {
+  <span class="pl-k">var</span> args <span class="pl-k">=</span> <span class="pl-c1">Array</span>.<span class="pl-c1">prototype</span>.slice.<span class="pl-c1">call</span>(arguments);
+  ...
+}</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-字符串" class="anchor" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2" aria-hidden="true"><span class="octicon octicon-link"></span></a>字符串</h2>
+
+<ul>
+<li>
+<p>用单引号 <code>''</code> 创建字符串.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Bob Parr<span class="pl-pds">"</span></span>;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Bob Parr<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> fullName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Bob <span class="pl-pds">"</span></span> <span class="pl-k">+</span> <span class="pl-v">this</span>.lastName;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> fullName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Bob <span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-v">this</span>.lastName;</pre></div>
+</li>
+<li><p>建议字符长度超过80的字符串，拆分成小于80长度的字符串，使用字符串拼接的方法拼接</p></li>
+<li>
+<p>提示: 如果大量使用长字符串拼接，会对性能造成影响 <a href="http://jsperf.com/ya-string-concat">jsPerf</a> &amp; <a href="https://github.com/airbnb/javascript/issues/40">Discussion</a>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> errorMessage <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>This is a super long error that was thrown because of Batman. When you stop to think about how Batman had anything to do with this, you would get nowhere fast.<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> errorMessage <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>This is a super long error that was thrown because \</span>
+<span class="pl-s">of Batman. When you stop to think about how Batman had anything to do \</span>
+<span class="pl-s">with this, you would get nowhere \</span>
+<span class="pl-s">fast.<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> errorMessage <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>This is a super long error that was thrown because <span class="pl-pds">'</span></span> <span class="pl-k">+</span>
+  <span class="pl-s"><span class="pl-pds">'</span>of Batman. When you stop to think about how Batman had anything to do <span class="pl-pds">'</span></span> <span class="pl-k">+</span>
+  <span class="pl-s"><span class="pl-pds">'</span>with this, you would get nowhere fast.<span class="pl-pds">'</span></span>;</pre></div>
+</li>
+<li>
+<p>建议通过使用join方法来连接字符串，而不要直接将字符串拼接，特别是在IE下性能比较低: <a href="http://jsperf.com/string-vs-array-concat/2">jsPerf</a>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> items;
+<span class="pl-k">var</span> messages;
+<span class="pl-k">var</span> length;
+<span class="pl-k">var</span> i;
+
+messages <span class="pl-k">=</span> [{
+  state<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>success<span class="pl-pds">'</span></span>,
+  message<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>This one worked.<span class="pl-pds">'</span></span>
+}, {
+  state<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>success<span class="pl-pds">'</span></span>,
+  message<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>This one worked as well.<span class="pl-pds">'</span></span>
+}, {
+  state<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>error<span class="pl-pds">'</span></span>,
+  message<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>This one did not work.<span class="pl-pds">'</span></span>
+}];
+
+length <span class="pl-k">=</span> messages.<span class="pl-c1">length</span>;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">inbox</span>(<span class="pl-smi">messages</span>) {
+  items <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;ul&gt;<span class="pl-pds">'</span></span>;
+
+  <span class="pl-k">for</span> (i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> length; i<span class="pl-k">++</span>) {
+    items <span class="pl-k">+=</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;li&gt;<span class="pl-pds">'</span></span> <span class="pl-k">+</span> messages[i].message <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;/li&gt;<span class="pl-pds">'</span></span>;
+  }
+
+  <span class="pl-k">return</span> items <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;/ul&gt;<span class="pl-pds">'</span></span>;
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">inbox</span>(<span class="pl-smi">messages</span>) {
+  items <span class="pl-k">=</span> [];
+
+  <span class="pl-k">for</span> (i <span class="pl-k">=</span> <span class="pl-c1">0</span>; i <span class="pl-k">&lt;</span> length; i<span class="pl-k">++</span>) {
+    items[i] <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;li&gt;<span class="pl-pds">'</span></span> <span class="pl-k">+</span> messages[i].message <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;/li&gt;<span class="pl-pds">'</span></span>;
+  }
+
+  <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;ul&gt;<span class="pl-pds">'</span></span> <span class="pl-k">+</span> items.<span class="pl-c1">join</span>(<span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>&lt;/ul&gt;<span class="pl-pds">'</span></span>;
+}</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-函数" class="anchor" href="#%E5%87%BD%E6%95%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>函数</h2>
+
+<ul>
+<li>
+<p>函数表达式:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 匿名函数表达式</span>
+<span class="pl-k">var</span> <span class="pl-en">anonymous</span> <span class="pl-k">=</span> <span class="pl-k">function</span>() {
+  <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+};
+
+<span class="pl-c">// 有名函数表达式</span>
+<span class="pl-k">var</span> <span class="pl-en">named</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">named</span>() {
+  <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+};
+
+<span class="pl-c">// 自调用函数表达式</span>
+(<span class="pl-k">function</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>Welcome to the Internet. Please follow me.<span class="pl-pds">'</span></span>);
+})();</pre></div>
+</li>
+<li><p>绝对不要在非函数内直接定义一个函数，建议你将定义的函数赋给一个变量，虽然两种做法都可行，但在浏览器里解析是不一样的。</p></li>
+<li>
+<p><strong>注意:</strong> ECMA-262 定义 <code>块</code> 型代码为一组一句. 函数声明不是一个语句. <a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf#page=97">Read ECMA-262's note on this issue</a>.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">if</span> (currentUser) {
+  <span class="pl-k">function</span> <span class="pl-en">test</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>Nope.<span class="pl-pds">'</span></span>);
+  }
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> test;
+<span class="pl-k">if</span> (currentUser) {
+  <span class="pl-en">test</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">test</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>Yup.<span class="pl-pds">'</span></span>);
+  };
+}</pre></div>
+</li>
+<li>
+<p>绝对不要将参数命名为 <code>arguments</code>，在作用域内的其他函数传参会有问题</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">nope</span>(<span class="pl-smi">name</span>, <span class="pl-smi">options</span>, <span class="pl-smi">arguments</span>) {
+  <span class="pl-c">// ...stuff...</span>
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">yup</span>(<span class="pl-smi">name</span>, <span class="pl-smi">options</span>, <span class="pl-smi">args</span>) {
+  <span class="pl-c">// ...stuff...</span>
+}</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-对象的属性" class="anchor" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B1%9E%E6%80%A7" aria-hidden="true"><span class="octicon octicon-link"></span></a>对象的属性</h2>
+
+<ul>
+<li>
+<p>使用 <code>.</code> 表示法来访问对象的成员.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> luke <span class="pl-k">=</span> {
+  jedi<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+  age<span class="pl-k">:</span> <span class="pl-c1">28</span>
+};
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> isJedi <span class="pl-k">=</span> luke[<span class="pl-s"><span class="pl-pds">'</span>jedi<span class="pl-pds">'</span></span>];
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> isJedi <span class="pl-k">=</span> luke.jedi;</pre></div>
+</li>
+<li>
+<p>当对象的键是参数变量的时候，请使用 <code>[]</code>的表示法访问对象的成员</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> luke <span class="pl-k">=</span> {
+  jedi<span class="pl-k">:</span> <span class="pl-c1">true</span>,
+  age<span class="pl-k">:</span> <span class="pl-c1">28</span>
+};
+
+<span class="pl-k">function</span> <span class="pl-en">getProp</span>(<span class="pl-smi">prop</span>) {
+  <span class="pl-k">return</span> luke[prop];
+}
+
+<span class="pl-k">var</span> isJedi <span class="pl-k">=</span> getProp(<span class="pl-s"><span class="pl-pds">'</span>jedi<span class="pl-pds">'</span></span>);</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-变量" class="anchor" href="#%E5%8F%98%E9%87%8F" aria-hidden="true"><span class="octicon octicon-link"></span></a>变量</h2>
+
+<ul>
+<li>
+<p>一定要使用 <code>var</code> 来声明变量.否则会导致全局变量污染.应该避免这样对全局命名空间污染.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+superPower <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SuperPower</span>();
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> superPower <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SuperPower</span>();</pre></div>
+</li>
+<li>
+<p>使用一个 <code>var</code> 只声明一个变量, 你绝对不用担心把 逗号<code>,</code>和分号<code>;</code>张冠李戴了.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> items <span class="pl-k">=</span> getItems(),
+    goSportsTeam <span class="pl-k">=</span> <span class="pl-c1">true</span>,
+    dragonball <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>z<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-c">// (比较上面的代码，范了个错误)</span>
+<span class="pl-k">var</span> items <span class="pl-k">=</span> getItems(),
+    goSportsTeam <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+    dragonball <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>z<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> items <span class="pl-k">=</span> getItems();
+<span class="pl-k">var</span> goSportsTeam <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+<span class="pl-k">var</span> dragonball <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>z<span class="pl-pds">'</span></span>;</pre></div>
+</li>
+<li>
+<p>将未赋值的变量放在末尾，当需要用到前面已赋值变量就会很有帮助。</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> i, len, dragonball,
+    items <span class="pl-k">=</span> getItems(),
+    goSportsTeam <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> i;
+<span class="pl-k">var</span> items <span class="pl-k">=</span> getItems();
+<span class="pl-k">var</span> dragonball;
+<span class="pl-k">var</span> goSportsTeam <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+<span class="pl-k">var</span> len;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> items <span class="pl-k">=</span> getItems();
+<span class="pl-k">var</span> goSportsTeam <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+<span class="pl-k">var</span> dragonball;
+<span class="pl-k">var</span> length;
+<span class="pl-k">var</span> i;</pre></div>
+</li>
+<li>
+<p>把变量声明在它的作用域顶部，有助于避免变量声明和赋值产生相关问题。</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span>() {
+  <span class="pl-c1">test</span>();
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>doing stuff..<span class="pl-pds">'</span></span>);
+
+  <span class="pl-c">//..other stuff..</span>
+
+  <span class="pl-k">var</span> name <span class="pl-k">=</span> getName();
+
+  <span class="pl-k">if</span> (name <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>test<span class="pl-pds">'</span></span>) {
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+  }
+
+  <span class="pl-k">return</span> name;
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span>() {
+  <span class="pl-k">var</span> name <span class="pl-k">=</span> getName();
+
+  <span class="pl-c1">test</span>();
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>doing stuff..<span class="pl-pds">'</span></span>);
+
+  <span class="pl-c">//..other stuff..</span>
+
+  <span class="pl-k">if</span> (name <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>test<span class="pl-pds">'</span></span>) {
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+  }
+
+  <span class="pl-k">return</span> name;
+}
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span>() {
+  <span class="pl-k">var</span> name <span class="pl-k">=</span> getName();
+
+  <span class="pl-k">if</span> (<span class="pl-k">!</span>arguments.<span class="pl-c1">length</span>) {
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+  }
+
+  <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span>() {
+  <span class="pl-k">if</span> (<span class="pl-k">!</span>arguments.<span class="pl-c1">length</span>) {
+    <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+  }
+
+  <span class="pl-k">var</span> name <span class="pl-k">=</span> getName();
+
+  <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+}</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-hoisting" class="anchor" href="#hoisting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hoisting</h2>
+
+<ul>
+<li>
+<p>Variable declarations get hoisted to the top of their scope, their assignment does not.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// we know this wouldn't work (assuming there</span>
+<span class="pl-c">// is no notDefined global variable)</span>
+<span class="pl-k">function</span> <span class="pl-en">example</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(notDefined); <span class="pl-c">// =&gt; throws a ReferenceError</span>
+}
+
+<span class="pl-c">// creating a variable declaration after you</span>
+<span class="pl-c">// reference the variable will work due to</span>
+<span class="pl-c">// variable hoisting. Note: the assignment</span>
+<span class="pl-c">// value of `true` is not hoisted.</span>
+<span class="pl-k">function</span> <span class="pl-en">example</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(declaredButNotAssigned); <span class="pl-c">// =&gt; undefined</span>
+  <span class="pl-k">var</span> declaredButNotAssigned <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+}
+
+<span class="pl-c">// The interpreter is hoisting the variable</span>
+<span class="pl-c">// declaration to the top of the scope,</span>
+<span class="pl-c">// which means our example could be rewritten as:</span>
+<span class="pl-k">function</span> <span class="pl-en">example</span>() {
+  <span class="pl-k">var</span> declaredButNotAssigned;
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(declaredButNotAssigned); <span class="pl-c">// =&gt; undefined</span>
+  declaredButNotAssigned <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+}</pre></div>
+</li>
+<li>
+<p>Anonymous function expressions hoist their variable name, but not the function assignment.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">function</span> <span class="pl-en">example</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(anonymous); <span class="pl-c">// =&gt; undefined</span>
+
+  anonymous(); <span class="pl-c">// =&gt; TypeError anonymous is not a function</span>
+
+  <span class="pl-k">var</span> <span class="pl-en">anonymous</span> <span class="pl-k">=</span> <span class="pl-k">function</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>anonymous function expression<span class="pl-pds">'</span></span>);
+  };
+}</pre></div>
+</li>
+<li>
+<p>Named function expressions hoist the variable name, not the function name or the function body.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">function</span> <span class="pl-en">example</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(named); <span class="pl-c">// =&gt; undefined</span>
+
+  named(); <span class="pl-c">// =&gt; TypeError named is not a function</span>
+
+  superPower(); <span class="pl-c">// =&gt; ReferenceError superPower is not defined</span>
+
+  <span class="pl-k">var</span> <span class="pl-en">named</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">superPower</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>Flying<span class="pl-pds">'</span></span>);
+  };
+}
+
+<span class="pl-c">// the same is true when the function name</span>
+<span class="pl-c">// is the same as the variable name.</span>
+<span class="pl-k">function</span> <span class="pl-en">example</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(named); <span class="pl-c">// =&gt; undefined</span>
+
+  named(); <span class="pl-c">// =&gt; TypeError named is not a function</span>
+
+  <span class="pl-k">var</span> <span class="pl-en">named</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">named</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>named<span class="pl-pds">'</span></span>);
+  }
+}</pre></div>
+</li>
+<li>
+<p>Function declarations hoist their name and the function body.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">function</span> <span class="pl-en">example</span>() {
+  superPower(); <span class="pl-c">// =&gt; Flying</span>
+
+  <span class="pl-k">function</span> <span class="pl-en">superPower</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>Flying<span class="pl-pds">'</span></span>);
+  }
+}</pre></div>
+</li>
+<li><p>For more information refer to <a href="http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting">JavaScript Scoping &amp; Hoisting</a> by <a href="http://www.adequatelygood.com/">Ben Cherry</a>.</p></li>
+</ul>
+
+<h2>
+<a id="user-content-条件语句和等号运算符" class="anchor" href="#%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5%E5%92%8C%E7%AD%89%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6" aria-hidden="true"><span class="octicon octicon-link"></span></a>条件语句和等号运算符</h2>
+
+<ul>
+<li>合理使用 <code>===</code> 和 <code>!==</code> 以及 <code>==</code> 和 <code>!=</code>.</li>
+<li>
+<p>条件表达式的强制类型转换遵循以下规则：</p>
+
+<ul>
+<li>
+<strong>对象</strong> 被计算为 <strong>true</strong>
+</li>
+<li>
+<strong>Undefined</strong> 被计算为 <strong>false</strong>
+</li>
+<li>
+<strong>Null</strong> 被计算为 <strong>false</strong>
+</li>
+<li>
+<strong>布尔值</strong> 被计算为 <strong>布尔的值</strong>
+</li>
+<li>
+<strong>数字</strong> 如果是 <strong>+0, -0, or NaN</strong> 被计算为 <strong>false</strong> , 否则为 <strong>true</strong>
+</li>
+<li>
+<strong>字符串</strong> 如果是空字符串 <code>''</code> 则被计算为 <strong>false</strong>, 否则为 <strong>true</strong>
+</li>
+</ul>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">if</span> ([<span class="pl-c1">0</span>]) {
+  <span class="pl-c">// 返回true</span>
+  <span class="pl-c">// 数组就是一个对象, 对象的返回值是true</span>
+}</pre></div>
+</li>
+<li>
+<p>使用快捷写法.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">if</span> (name <span class="pl-k">!==</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>) {
+  <span class="pl-c">// ...stuff...</span>
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">if</span> (name) {
+  <span class="pl-c">// ...stuff...</span>
+}
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">if</span> (collection.<span class="pl-c1">length</span> <span class="pl-k">&gt;</span> <span class="pl-c1">0</span>) {
+  <span class="pl-c">// ...stuff...</span>
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">if</span> (collection.<span class="pl-c1">length</span>) {
+  <span class="pl-c">// ...stuff...</span>
+}</pre></div>
+</li>
+<li><p>请参考更多资料 <a href="http://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/#more-2108">Truth Equality and JavaScript</a></p></li>
+</ul>
+
+<h2>
+<a id="user-content-代码块" class="anchor" href="#%E4%BB%A3%E7%A0%81%E5%9D%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>代码块</h2>
+
+<ul>
+<li>
+<p>多行代码块用大括号.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">if</span> (test)
+  <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">if</span> (test) <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">if</span> (test) {
+  <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span>() { <span class="pl-k">return</span> <span class="pl-c1">false</span>; }
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span>() {
+  <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}</pre></div>
+</li>
+<li><p>If you're using multi-line blocks with <code>if</code> and <code>else</code>, put <code>else</code> on the same line as your
+<code>if</code> block's closing brace.</p></li>
+<li>
+<p>当你代码中使用了 <code>if</code> 和 <code>else</code>语句，请把else放在if语句封口大括号的同一行.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">if</span> (test) {
+  thing1();
+  thing2();
+}
+<span class="pl-k">else</span> {
+  thing3();
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">if</span> (test) {
+  thing1();
+  thing2();
+} <span class="pl-k">else</span> {
+  thing3();
+}</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-注释" class="anchor" href="#%E6%B3%A8%E9%87%8A" aria-hidden="true"><span class="octicon octicon-link"></span></a>注释</h2>
+
+<ul>
+<li>
+<p>使用 <code>/** ... */</code> 写多行注释. I包括描述，指定类型以及所有的参数值和返回值.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-c">// make() returns a new element</span>
+<span class="pl-c">// based on the passed in tag name</span>
+<span class="pl-c">//</span>
+<span class="pl-c">// @param {String} tag</span>
+<span class="pl-c">// @return {Element} element</span>
+<span class="pl-k">function</span> <span class="pl-en">make</span>(<span class="pl-smi">tag</span>) {
+
+  <span class="pl-c">// ...stuff...</span>
+
+  <span class="pl-k">return</span> element;
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-c">/**</span>
+<span class="pl-c"> * make() returns a new element</span>
+<span class="pl-c"> * based on the passed in tag name</span>
+<span class="pl-c"> *</span>
+<span class="pl-c"> * @param {String} tag</span>
+<span class="pl-c"> * @return {Element} element</span>
+<span class="pl-c"> */</span>
+<span class="pl-k">function</span> <span class="pl-en">make</span>(<span class="pl-smi">tag</span>) {
+
+  <span class="pl-c">// ...stuff...</span>
+
+  <span class="pl-k">return</span> element;
+}</pre></div>
+</li>
+<li>
+<p>使用 <code>//</code> 写简单的单行注释. 单独占一行，写在需要评论的对象上面，注释和代码块前后空一行.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> active <span class="pl-k">=</span> <span class="pl-c1">true</span>;  <span class="pl-c">// 当前的TAB</span>
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-c">// 当前的TAB</span>
+<span class="pl-k">var</span> active <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">getType</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>fetching type...<span class="pl-pds">'</span></span>);
+  <span class="pl-c">// set the default type to 'no type'</span>
+  <span class="pl-k">var</span> type <span class="pl-k">=</span> <span class="pl-v">this</span>._type <span class="pl-k">||</span> <span class="pl-s"><span class="pl-pds">'</span>no type<span class="pl-pds">'</span></span>;
+
+  <span class="pl-k">return</span> type;
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">getType</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>fetching type...<span class="pl-pds">'</span></span>);
+
+  <span class="pl-c">// set the default type to 'no type'</span>
+  <span class="pl-k">var</span> type <span class="pl-k">=</span> <span class="pl-v">this</span>._type <span class="pl-k">||</span> <span class="pl-s"><span class="pl-pds">'</span>no type<span class="pl-pds">'</span></span>;
+
+  <span class="pl-k">return</span> type;
+}</pre></div>
+</li>
+<li><p>Prefixing your comments with <code>FIXME</code> or <code>TODO</code> helps other developers quickly understand if you're pointing out a problem that needs to be revisited, or if you're suggesting a solution to the problem that needs to be implemented. These are different than regular comments because they are actionable. The actions are <code>FIXME -- need to figure this out</code> or <code>TODO -- need to implement</code>.</p></li>
+<li><p>如果你有一个问题需要重新来看一下或如果你建议一个需要被实现的解决方法的话需要在你的注释前面加上 <code>FIXME</code> 或 <code>TODO</code> 帮助其他人迅速理解</p></li>
+<li>
+<p>使用 <code>// FIXME:</code> 来注释问题.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">function</span> <span class="pl-en">Calculator</span>() {
+
+  <span class="pl-c">// FIXME: 这里不能使用全局变量</span>
+  total <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+
+  <span class="pl-k">return</span> <span class="pl-v">this</span>;
+}</pre></div>
+</li>
+<li>
+<p>使用 <code>// TODO:</code> 注释问题的解决方法.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">function</span> <span class="pl-en">Calculator</span>() {
+
+  <span class="pl-c">// TODO: total should be configurable by an options param</span>
+  <span class="pl-v">this</span>.total <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+
+  <span class="pl-k">return</span> <span class="pl-v">this</span>;
+}</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-空格" class="anchor" href="#%E7%A9%BA%E6%A0%BC" aria-hidden="true"><span class="octicon octicon-link"></span></a>空格</h2>
+
+<ul>
+<li>
+<p>设置TAB贱为2个空格.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span>() {
+∙∙∙∙<span class="pl-k">var</span> name;
+}
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span>() {
+∙<span class="pl-k">var</span> name;
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span>() {
+∙∙<span class="pl-k">var</span> name;
+}</pre></div>
+</li>
+<li>
+<p>大括号前加个空格.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">test</span>(){
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>test<span class="pl-pds">'</span></span>);
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">test</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>test<span class="pl-pds">'</span></span>);
+}
+
+<span class="pl-c">// 不推荐</span>
+dog.set(<span class="pl-s"><span class="pl-pds">'</span>attr<span class="pl-pds">'</span></span>,{
+  age<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>1 year<span class="pl-pds">'</span></span>,
+  breed<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Bernese Mountain Dog<span class="pl-pds">'</span></span>
+});
+
+<span class="pl-c">// 推荐</span>
+dog.set(<span class="pl-s"><span class="pl-pds">'</span>attr<span class="pl-pds">'</span></span>, {
+  age<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>1 year<span class="pl-pds">'</span></span>,
+  breed<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Bernese Mountain Dog<span class="pl-pds">'</span></span>
+});</pre></div>
+</li>
+<li><p>Place 1 space before the opening parenthesis in control statements (<code>if</code>, <code>while</code> etc.). Place no space before the argument list in function calls and declarations.</p></li>
+<li><div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">if</span>(isJedi) {
+  fight ();
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">if</span> (isJedi) {
+  fight();
+}
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">fight</span> () {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span> (<span class="pl-s"><span class="pl-pds">'</span>Swooosh!<span class="pl-pds">'</span></span>);
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">fight</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>Swooosh!<span class="pl-pds">'</span></span>);
+}</pre></div></li>
+<li>
+<p>Set off operators with spaces.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> x<span class="pl-k">=</span>y<span class="pl-k">+</span><span class="pl-c1">5</span>;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> x <span class="pl-k">=</span> y <span class="pl-k">+</span> <span class="pl-c1">5</span>;</pre></div>
+
+<ul>
+<li>语句的末尾添加回车换行符</li>
+</ul>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+(<span class="pl-k">function</span>(<span class="pl-smi">global</span>) {
+  <span class="pl-c">// ...stuff...</span>
+})(<span class="pl-v">this</span>);</pre></div>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+(<span class="pl-k">function</span>(<span class="pl-smi">global</span>) {
+  <span class="pl-c">// ...stuff...</span>
+})(<span class="pl-v">this</span>);↵
+↵</pre></div>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 推荐</span>
+(<span class="pl-k">function</span>(<span class="pl-smi">global</span>) {
+  <span class="pl-c">// ...stuff...</span>
+})(<span class="pl-v">this</span>);↵</pre></div>
+</li>
+<li>
+<p>写JQuery长方法链，每个方法占一行，代码要缩进保持良好可读性和美观.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+$(<span class="pl-s"><span class="pl-pds">'</span>#items<span class="pl-pds">'</span></span>).<span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>.selected<span class="pl-pds">'</span></span>).highlight().end().<span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>.open<span class="pl-pds">'</span></span>).updateCount();
+
+<span class="pl-c">// 不推荐</span>
+$(<span class="pl-s"><span class="pl-pds">'</span>#items<span class="pl-pds">'</span></span>).
+  <span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>.selected<span class="pl-pds">'</span></span>).
+    highlight().
+    end().
+  <span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>.open<span class="pl-pds">'</span></span>).
+    updateCount();
+
+<span class="pl-c">// 推荐</span>
+$(<span class="pl-s"><span class="pl-pds">'</span>#items<span class="pl-pds">'</span></span>)
+  .<span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>.selected<span class="pl-pds">'</span></span>)
+    .highlight()
+    .end()
+  .<span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>.open<span class="pl-pds">'</span></span>)
+    .updateCount();
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> leds <span class="pl-k">=</span> stage.selectAll(<span class="pl-s"><span class="pl-pds">'</span>.led<span class="pl-pds">'</span></span>).<span class="pl-c1">data</span>(data).enter().append(<span class="pl-s"><span class="pl-pds">'</span>svg:svg<span class="pl-pds">'</span></span>).classed(<span class="pl-s"><span class="pl-pds">'</span>led<span class="pl-pds">'</span></span>, <span class="pl-c1">true</span>)
+    .attr(<span class="pl-s"><span class="pl-pds">'</span>width<span class="pl-pds">'</span></span>,  (radius <span class="pl-k">+</span> margin) <span class="pl-k">*</span> <span class="pl-c1">2</span>).append(<span class="pl-s"><span class="pl-pds">'</span>svg:g<span class="pl-pds">'</span></span>)
+    .attr(<span class="pl-s"><span class="pl-pds">'</span>transform<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>translate(<span class="pl-pds">'</span></span> <span class="pl-k">+</span> (radius <span class="pl-k">+</span> margin) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span> <span class="pl-k">+</span> (radius <span class="pl-k">+</span> margin) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>)<span class="pl-pds">'</span></span>)
+    .<span class="pl-c1">call</span>(tron.led);
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> leds <span class="pl-k">=</span> stage.selectAll(<span class="pl-s"><span class="pl-pds">'</span>.led<span class="pl-pds">'</span></span>)
+    .<span class="pl-c1">data</span>(data)
+  .enter().append(<span class="pl-s"><span class="pl-pds">'</span>svg:svg<span class="pl-pds">'</span></span>)
+    .classed(<span class="pl-s"><span class="pl-pds">'</span>led<span class="pl-pds">'</span></span>, <span class="pl-c1">true</span>)
+    .attr(<span class="pl-s"><span class="pl-pds">'</span>width<span class="pl-pds">'</span></span>,  (radius <span class="pl-k">+</span> margin) <span class="pl-k">*</span> <span class="pl-c1">2</span>)
+  .append(<span class="pl-s"><span class="pl-pds">'</span>svg:g<span class="pl-pds">'</span></span>)
+    .attr(<span class="pl-s"><span class="pl-pds">'</span>transform<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>translate(<span class="pl-pds">'</span></span> <span class="pl-k">+</span> (radius <span class="pl-k">+</span> margin) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span> <span class="pl-k">+</span> (radius <span class="pl-k">+</span> margin) <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span>)<span class="pl-pds">'</span></span>)
+    .<span class="pl-c1">call</span>(tron.led);</pre></div>
+</li>
+<li>
+<p>在代码块后面，表达式前面，单独空一行</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">if</span> (foo) {
+  <span class="pl-k">return</span> bar;
+}
+<span class="pl-k">return</span> baz;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">if</span> (foo) {
+  <span class="pl-k">return</span> bar;
+}
+
+<span class="pl-k">return</span> baz;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> obj <span class="pl-k">=</span> {
+  <span class="pl-en">foo</span>: <span class="pl-k">function</span>() {
+  },
+  <span class="pl-en">bar</span>: <span class="pl-k">function</span>() {
+  }
+};
+<span class="pl-k">return</span> obj;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> obj <span class="pl-k">=</span> {
+  <span class="pl-en">foo</span>: <span class="pl-k">function</span>() {
+  },
+
+  <span class="pl-en">bar</span>: <span class="pl-k">function</span>() {
+  }
+};
+
+<span class="pl-k">return</span> obj;</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-逗号" class="anchor" href="#%E9%80%97%E5%8F%B7" aria-hidden="true"><span class="octicon octicon-link"></span></a>逗号</h2>
+
+<ul>
+<li>
+<p>不要将逗号放在最前</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> story <span class="pl-k">=</span> [
+    once
+  , upon
+  , aTime
+];
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> story <span class="pl-k">=</span> [
+  once,
+  upon,
+  aTime
+];
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> hero <span class="pl-k">=</span> {
+    firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Bob<span class="pl-pds">'</span></span>
+  , lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Parr<span class="pl-pds">'</span></span>
+  , heroName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Mr. Incredible<span class="pl-pds">'</span></span>
+  , superPower<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>strength<span class="pl-pds">'</span></span>
+};
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> hero <span class="pl-k">=</span> {
+  firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Bob<span class="pl-pds">'</span></span>,
+  lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Parr<span class="pl-pds">'</span></span>,
+  heroName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Mr. Incredible<span class="pl-pds">'</span></span>,
+  superPower<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>strength<span class="pl-pds">'</span></span>
+};</pre></div>
+</li>
+<li>
+<p>Additional trailing comma: <strong>Nope.</strong> This can cause problems with IE6/7 and IE9 if it's in quirksmode. Also, in some implementations of ES3 would add length to an array if it had an additional trailing comma. This was clarified in ES5 (<a href="http://es5.github.io/#D">source</a>):</p>
+
+<blockquote>
+<p>Edition 5 clarifies the fact that a trailing comma at the end of an ArrayInitialiser does not add to the length of the array. This is not a semantic change from Edition 3 but some implementations may have previously misinterpreted this.</p>
+</blockquote>
+</li>
+<li>
+<p>不要加多余的逗号，这可能会在IE下引起错误，同时如果多一个逗号某些ES3的实现会计算多数组的长度。</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> hero <span class="pl-k">=</span> {
+  firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Kevin<span class="pl-pds">'</span></span>,
+  lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Flynn<span class="pl-pds">'</span></span>,
+};
+
+<span class="pl-k">var</span> heroes <span class="pl-k">=</span> [
+  <span class="pl-s"><span class="pl-pds">'</span>Batman<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>Superman<span class="pl-pds">'</span></span>,
+];
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> hero <span class="pl-k">=</span> {
+  firstName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Kevin<span class="pl-pds">'</span></span>,
+  lastName<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Flynn<span class="pl-pds">'</span></span>
+};
+
+<span class="pl-k">var</span> heroes <span class="pl-k">=</span> [
+  <span class="pl-s"><span class="pl-pds">'</span>Batman<span class="pl-pds">'</span></span>,
+  <span class="pl-s"><span class="pl-pds">'</span>Superman<span class="pl-pds">'</span></span>
+];</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-分号" class="anchor" href="#%E5%88%86%E5%8F%B7" aria-hidden="true"><span class="octicon octicon-link"></span></a>分号</h2>
+
+<ul>
+<li>
+<p>语句末尾一定要加分号</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+(<span class="pl-k">function</span>() {
+  <span class="pl-k">var</span> name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Skywalker<span class="pl-pds">'</span></span>
+  <span class="pl-k">return</span> name
+})()
+
+<span class="pl-c">// 推荐</span>
+(<span class="pl-k">function</span>() {
+  <span class="pl-k">var</span> name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Skywalker<span class="pl-pds">'</span></span>;
+  <span class="pl-k">return</span> name;
+})();
+
+<span class="pl-c">// 推荐 (guards against the function becoming an argument when two files with IIFEs are concatenated)</span>
+;(<span class="pl-k">function</span>() {
+  <span class="pl-k">var</span> name <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Skywalker<span class="pl-pds">'</span></span>;
+  <span class="pl-k">return</span> name;
+})();</pre></div>
+
+<p><a href="http://stackoverflow.com/a/7365214/1712802">Read more</a>.</p>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-类型转换" class="anchor" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2" aria-hidden="true"><span class="octicon octicon-link"></span></a>类型转换</h2>
+
+<ul>
+<li>在语句的开始执行类型转换.</li>
+<li>
+<p>字符串:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">//  =&gt; this.reviewScore = 9;</span>
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> totalScore <span class="pl-k">=</span> <span class="pl-v">this</span>.reviewScore <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> totalScore <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-v">this</span>.reviewScore;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> totalScore <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span><span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-v">this</span>.reviewScore <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span> total score<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> totalScore <span class="pl-k">=</span> <span class="pl-v">this</span>.reviewScore <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span> total score<span class="pl-pds">'</span></span>;</pre></div>
+</li>
+<li>
+<p>对数字使用 <code>parseInt</code> 并且总是带上类型转换的进制数.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> inputValue <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>4<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> val <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Number</span>(inputValue);
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> val <span class="pl-k">=</span> <span class="pl-k">+</span>inputValue;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> val <span class="pl-k">=</span> inputValue <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">0</span>;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> val <span class="pl-k">=</span> <span class="pl-c1">parseInt</span>(inputValue);
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> val <span class="pl-k">=</span> <span class="pl-c1">Number</span>(inputValue);
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> val <span class="pl-k">=</span> <span class="pl-c1">parseInt</span>(inputValue, <span class="pl-c1">10</span>);</pre></div>
+</li>
+<li>
+<p>If for whatever reason you are doing something wild and <code>parseInt</code> is your bottleneck and need to use Bitshift for <a href="http://jsperf.com/coercion-vs-casting/3">performance reasons</a>, leave a comment explaining why and what you're doing.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 推荐</span>
+<span class="pl-c">/**</span>
+<span class="pl-c"> * parseInt was the reason my code was slow.</span>
+<span class="pl-c"> * Bitshifting the String to coerce it to a</span>
+<span class="pl-c"> * Number made it a lot faster.</span>
+<span class="pl-c"> */</span>
+<span class="pl-k">var</span> val <span class="pl-k">=</span> inputValue <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">0</span>;</pre></div>
+</li>
+<li>
+<p><strong>Note:</strong> Be careful when using bitshift operations. Numbers are represented as <a href="http://es5.github.io/#x4.3.19">64-bit values</a>, but Bitshift operations always return a 32-bit integer (<a href="http://es5.github.io/#x11.7">source</a>). Bitshift can lead to unexpected behavior for integer values larger than 32 bits. <a href="https://github.com/airbnb/javascript/issues/109">Discussion</a>. Largest signed 32-bit Int is 2,147,483,647:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c1">2147483647</span> <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">0</span> <span class="pl-c">//=&gt; 2147483647</span>
+<span class="pl-c1">2147483648</span> <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">0</span> <span class="pl-c">//=&gt; -2147483648</span>
+<span class="pl-c1">2147483649</span> <span class="pl-k">&gt;&gt;</span> <span class="pl-c1">0</span> <span class="pl-c">//=&gt; -2147483647</span></pre></div>
+</li>
+<li>
+<p>布尔值:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> age <span class="pl-k">=</span> <span class="pl-c1">0</span>;
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> hasAge <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Boolean</span>(age);
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> hasAge <span class="pl-k">=</span> <span class="pl-c1">Boolean</span>(age);
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> hasAge <span class="pl-k">=</span> <span class="pl-k">!!</span>age;</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-命名约定" class="anchor" href="#%E5%91%BD%E5%90%8D%E7%BA%A6%E5%AE%9A" aria-hidden="true"><span class="octicon octicon-link"></span></a>命名约定</h2>
+
+<ul>
+<li>
+<p>避免无意义的单个字母，要求有语义化的命名.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">q</span>() {
+  <span class="pl-c">// ...stuff...</span>
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">query</span>() {
+  <span class="pl-c">// ..stuff..</span>
+}</pre></div>
+</li>
+<li>
+<p>当命名对象、函数和实例时，使用驼峰命名法，且命名在上下文中有实际意义，增强代码可读性.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> OBJEcttsssss <span class="pl-k">=</span> {};
+<span class="pl-k">var</span> this_is_my_object <span class="pl-k">=</span> {};
+<span class="pl-k">function</span> <span class="pl-en">c</span>() {}
+<span class="pl-k">var</span> u <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">user</span>({
+  name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Bob Parr<span class="pl-pds">'</span></span>
+});
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> thisIsMyObject <span class="pl-k">=</span> {};
+<span class="pl-k">function</span> <span class="pl-en">thisIsMyFunction</span>() {}
+<span class="pl-k">var</span> user <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">User</span>({
+  name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Bob Parr<span class="pl-pds">'</span></span>
+});</pre></div>
+</li>
+<li>
+<p>当命名构造函数时，使用驼峰式命名，且首字母大写</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">user</span>(<span class="pl-smi">options</span>) {
+  <span class="pl-v">this</span>.<span class="pl-c1">name</span> <span class="pl-k">=</span> options.<span class="pl-c1">name</span>;
+}
+
+<span class="pl-k">var</span> bad <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">user</span>({
+  name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>nope<span class="pl-pds">'</span></span>
+});
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">User</span>(<span class="pl-smi">options</span>) {
+  <span class="pl-v">this</span>.<span class="pl-c1">name</span> <span class="pl-k">=</span> options.<span class="pl-c1">name</span>;
+}
+
+<span class="pl-k">var</span> good <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">User</span>({
+  name<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>yup<span class="pl-pds">'</span></span>
+});</pre></div>
+</li>
+<li>
+<ul>
+<li>私有属性命名，名称前加下划线 <code>_</code> .</li>
+</ul>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-v">this</span>.__firstName__ <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Panda<span class="pl-pds">'</span></span>;
+<span class="pl-v">this</span>.firstName_ <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Panda<span class="pl-pds">'</span></span>;
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-v">this</span>._firstName <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>Panda<span class="pl-pds">'</span></span>;</pre></div>
+</li>
+<li>
+<p>当<code>this</code>需要传值的时候，使用名称 <code>_this</code>，好有意义！</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span>() {
+  <span class="pl-k">var</span> self <span class="pl-k">=</span> <span class="pl-v">this</span>;
+  <span class="pl-k">return</span> <span class="pl-k">function</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(self);
+  };
+}
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span>() {
+  <span class="pl-k">var</span> that <span class="pl-k">=</span> <span class="pl-v">this</span>;
+  <span class="pl-k">return</span> <span class="pl-k">function</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(that);
+  };
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span>() {
+  <span class="pl-k">var</span> _this <span class="pl-k">=</span> <span class="pl-v">this</span>;
+  <span class="pl-k">return</span> <span class="pl-k">function</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(_this);
+  };
+}</pre></div>
+</li>
+<li>
+<p>给每个函数命名，避免匿名函数. 这样有助于在控制台调试和跟踪.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> <span class="pl-en">log</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">msg</span>) {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(msg);
+};
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> <span class="pl-en">log</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">logText</span>(<span class="pl-smi">msg</span>) {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(msg);
+};</pre></div>
+</li>
+<li><p><strong>Note:</strong> IE8 and below exhibit some quirks with named function expressions.  See <a href="http://kangax.github.io/nfe/">http://kangax.github.io/nfe/</a> for more info.</p></li>
+<li>
+<p>保持引用的文件名与接口名称一致。</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// file contents</span>
+<span class="pl-k">class</span> <span class="pl-en">CheckBox</span> {
+  <span class="pl-c">// ...</span>
+}
+<span class="pl-c1">module</span>.exports <span class="pl-k">=</span> CheckBox;
+
+<span class="pl-c">// in some other file</span>
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> CheckBox <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./checkBox<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> CheckBox <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./check_box<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> CheckBox <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./CheckBox<span class="pl-pds">'</span></span>);</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-存取器" class="anchor" href="#%E5%AD%98%E5%8F%96%E5%99%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>存取器</h2>
+
+<ul>
+<li>属性的存取器函数不是必需的.</li>
+<li>If you do make accessor functions use getVal() and setVal('hello').</li>
+<li>
+<p>如果你需要创建存取器请把他们命名为getVal() and setVal('hello').使用get和set单词，<code>get+什么</code>，<code>set+什么</code>方式命名.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+dragon.age();
+
+<span class="pl-c">// 推荐</span>
+dragon.getAge();
+
+<span class="pl-c">// 不推荐</span>
+dragon.age(<span class="pl-c1">25</span>);
+
+<span class="pl-c">// 推荐</span>
+dragon.setAge(<span class="pl-c1">25</span>);</pre></div>
+</li>
+<li>
+<p>如果属性是一个布尔值，请命名为isVal() 或 hasVal().使用is和has单词，<code>get+什么</code>，<code>set+什么</code>方式命名.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">if</span> (<span class="pl-k">!</span>dragon.age()) {
+  <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">if</span> (<span class="pl-k">!</span>dragon.hasAge()) {
+  <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+}</pre></div>
+</li>
+<li>
+<p>可以创建get()和set()函数，但是要保持一致.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">function</span> <span class="pl-en">Jedi</span>(<span class="pl-smi">options</span>) {
+  options <span class="pl-k">||</span> (options <span class="pl-k">=</span> {});
+  <span class="pl-k">var</span> lightsaber <span class="pl-k">=</span> options.lightsaber <span class="pl-k">||</span> <span class="pl-s"><span class="pl-pds">'</span>blue<span class="pl-pds">'</span></span>;
+  <span class="pl-v">this</span>.set(<span class="pl-s"><span class="pl-pds">'</span>lightsaber<span class="pl-pds">'</span></span>, lightsaber);
+}
+
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">set</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">key</span>, <span class="pl-smi">val</span>) {
+  <span class="pl-v">this</span>[key] <span class="pl-k">=</span> val;
+};
+
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">get</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">key</span>) {
+  <span class="pl-k">return</span> <span class="pl-v">this</span>[key];
+};</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-构造器" class="anchor" href="#%E6%9E%84%E9%80%A0%E5%99%A8" aria-hidden="true"><span class="octicon octicon-link"></span></a>构造器</h2>
+
+<ul>
+<li>
+<p>Assign methods to the prototype object, instead of overwriting the prototype with a new object. Overwriting the prototype makes inheritance impossible: by resetting the prototype you'll overwrite the base!</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">function</span> <span class="pl-en">Jedi</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>new jedi<span class="pl-pds">'</span></span>);
+}
+
+<span class="pl-c">// 不推荐</span>
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span> <span class="pl-k">=</span> {
+  <span class="pl-en">fight</span>: <span class="pl-k">function</span> <span class="pl-en">fight</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>fighting<span class="pl-pds">'</span></span>);
+  },
+
+  <span class="pl-en">block</span>: <span class="pl-k">function</span> <span class="pl-en">block</span>() {
+    <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>blocking<span class="pl-pds">'</span></span>);
+  }
+};
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">fight</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">fight</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>fighting<span class="pl-pds">'</span></span>);
+};
+
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">block</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">block</span>() {
+  <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>blocking<span class="pl-pds">'</span></span>);
+};</pre></div>
+</li>
+<li>
+<p>方法可以返回 <code>this</code> 帮助方法可链。</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">jump</span> <span class="pl-k">=</span> <span class="pl-k">function</span>() {
+  <span class="pl-v">this</span>.jumping <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+  <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+};
+
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">setHeight</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">height</span>) {
+  <span class="pl-v">this</span>.<span class="pl-c1">height</span> <span class="pl-k">=</span> height;
+};
+
+<span class="pl-k">var</span> luke <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Jedi</span>();
+luke.jump(); <span class="pl-c">// =&gt; true</span>
+luke.setHeight(<span class="pl-c1">20</span>); <span class="pl-c">// =&gt; undefined</span>
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">jump</span> <span class="pl-k">=</span> <span class="pl-k">function</span>() {
+  <span class="pl-v">this</span>.jumping <span class="pl-k">=</span> <span class="pl-c1">true</span>;
+  <span class="pl-k">return</span> <span class="pl-v">this</span>;
+};
+
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">setHeight</span> <span class="pl-k">=</span> <span class="pl-k">function</span>(<span class="pl-smi">height</span>) {
+  <span class="pl-v">this</span>.<span class="pl-c1">height</span> <span class="pl-k">=</span> height;
+  <span class="pl-k">return</span> <span class="pl-v">this</span>;
+};
+
+<span class="pl-k">var</span> luke <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">Jedi</span>();
+
+luke.jump()
+  .setHeight(<span class="pl-c1">20</span>);</pre></div>
+</li>
+<li>
+<p>可以写一个与JS语言自带的同名toString()方法，但是确保它工作正常并且不会有副作用，比如让它继承在某个对象下面。</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">function</span> <span class="pl-en">Jedi</span>(<span class="pl-smi">options</span>) {
+  options <span class="pl-k">||</span> (options <span class="pl-k">=</span> {});
+  <span class="pl-v">this</span>.<span class="pl-c1">name</span> <span class="pl-k">=</span> options.<span class="pl-c1">name</span> <span class="pl-k">||</span> <span class="pl-s"><span class="pl-pds">'</span>no name<span class="pl-pds">'</span></span>;
+}
+
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">getName</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">getName</span>() {
+  <span class="pl-k">return</span> <span class="pl-v">this</span>.<span class="pl-c1">name</span>;
+};
+
+<span class="pl-c1">Jedi</span>.<span class="pl-c1">prototype</span>.<span class="pl-en">toString</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">toString</span>() {
+  <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>Jedi - <span class="pl-pds">'</span></span> <span class="pl-k">+</span> <span class="pl-v">this</span>.getName();
+};</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-事件" class="anchor" href="#%E4%BA%8B%E4%BB%B6" aria-hidden="true"><span class="octicon octicon-link"></span></a>事件</h2>
+
+<ul>
+<li>When attaching data payloads to events (whether DOM events or something more proprietary like Backbone events), pass a hash instead of a raw value. This allows a subsequent contributor to add more data to the event payload without finding and updating every handler for the event. For example, instead of:</li>
+<li>
+<ul>
+<li>当给事件附加数据时，传入一个哈希而不是原始值，这可以让后面的贡献者加入更多数据到事件数据里而不用找出并更新那个事件的事件处理器</li>
+</ul>
+
+<div class="highlight highlight-js"><pre><span class="pl-c">// 不推荐</span>
+$(<span class="pl-v">this</span>).trigger(<span class="pl-s"><span class="pl-pds">'</span>listingUpdated<span class="pl-pds">'</span></span>, listing.<span class="pl-c1">id</span>);
+
+...
+
+$(<span class="pl-v">this</span>).on(<span class="pl-s"><span class="pl-pds">'</span>listingUpdated<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>, <span class="pl-smi">listingId</span>) {
+  <span class="pl-c">// do something with listingId</span>
+});</pre></div>
+
+<p>prefer:</p>
+
+<div class="highlight highlight-js"><pre><span class="pl-c">// 推荐</span>
+$(<span class="pl-v">this</span>).trigger(<span class="pl-s"><span class="pl-pds">'</span>listingUpdated<span class="pl-pds">'</span></span>, { listingId <span class="pl-k">:</span> listing.<span class="pl-c1">id</span> });
+
+...
+
+$(<span class="pl-v">this</span>).on(<span class="pl-s"><span class="pl-pds">'</span>listingUpdated<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>, <span class="pl-smi">data</span>) {
+  <span class="pl-c">// do something with data.listingId</span>
+});</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-模块" class="anchor" href="#%E6%A8%A1%E5%9D%97" aria-hidden="true"><span class="octicon octicon-link"></span></a>模块</h2>
+
+<ul>
+<li>模块应该以 <code>!</code> 开始，这保证了如果一个有问题的模块忘记包含最后的分号在合并后不会出现错误</li>
+<li>这个文件应该以驼峰命名，并在同名文件夹下，同时导出的时候名字一致</li>
+<li>加入一个名为noConflict()的方法来设置导出的模块为之前的版本并返回它</li>
+<li>
+<p>总是在模块顶部声明 <code>'use strict';</code></p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// fancyInput/fancyInput.js</span>
+
+<span class="pl-k">!</span><span class="pl-k">function</span>(<span class="pl-smi">global</span>) {
+  <span class="pl-s"><span class="pl-pds">'</span>use strict<span class="pl-pds">'</span></span>;
+
+  <span class="pl-k">var</span> previousFancyInput <span class="pl-k">=</span> <span class="pl-c1">global</span>.FancyInput;
+
+  <span class="pl-k">function</span> <span class="pl-en">FancyInput</span>(<span class="pl-smi">options</span>) {
+    <span class="pl-v">this</span>.<span class="pl-c1">options</span> <span class="pl-k">=</span> options <span class="pl-k">||</span> {};
+  }
+
+  <span class="pl-c1">FancyInput</span>.<span class="pl-en">noConflict</span> <span class="pl-k">=</span> <span class="pl-k">function</span> <span class="pl-en">noConflict</span>() {
+    <span class="pl-c1">global</span>.FancyInput <span class="pl-k">=</span> previousFancyInput;
+    <span class="pl-k">return</span> FancyInput;
+  };
+
+  <span class="pl-c1">global</span>.FancyInput <span class="pl-k">=</span> FancyInput;
+}(<span class="pl-v">this</span>);</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-jquery" class="anchor" href="#jquery" aria-hidden="true"><span class="octicon octicon-link"></span></a>jQuery</h2>
+
+<ul>
+<li>
+<p>JQuery对象使用<code>$</code>做为变量前缀</p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">var</span> sidebar <span class="pl-k">=</span> $(<span class="pl-s"><span class="pl-pds">'</span>.sidebar<span class="pl-pds">'</span></span>);
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">var</span> $sidebar <span class="pl-k">=</span> $(<span class="pl-s"><span class="pl-pds">'</span>.sidebar<span class="pl-pds">'</span></span>);</pre></div>
+
+<ul>
+<li>缓存Jquery查询的对象到一个变量中.</li>
+</ul>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">setSidebar</span>() {
+  $(<span class="pl-s"><span class="pl-pds">'</span>.sidebar<span class="pl-pds">'</span></span>).hide();
+
+  <span class="pl-c">// ...stuff...</span>
+
+  $(<span class="pl-s"><span class="pl-pds">'</span>.sidebar<span class="pl-pds">'</span></span>).css({
+    <span class="pl-s"><span class="pl-pds">'</span>background-color<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>pink<span class="pl-pds">'</span></span>
+  });
+}
+
+<span class="pl-c">// 推荐</span>
+<span class="pl-k">function</span> <span class="pl-en">setSidebar</span>() {
+  <span class="pl-k">var</span> $sidebar <span class="pl-k">=</span> $(<span class="pl-s"><span class="pl-pds">'</span>.sidebar<span class="pl-pds">'</span></span>);
+  $sidebar.hide();
+
+  <span class="pl-c">// ...stuff...</span>
+
+  $sidebar.css({
+    <span class="pl-s"><span class="pl-pds">'</span>background-color<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>pink<span class="pl-pds">'</span></span>
+  });
+}</pre></div>
+</li>
+<li><p>For DOM queries use Cascading <code>$('.sidebar ul')</code> or parent &gt; child <code>$('.sidebar &gt; ul')</code>. <a href="http://jsperf.com/jquery-find-vs-context-sel/16">jsPerf</a></p></li>
+<li>Use <code>find</code> with scoped jQuery object queries.</li>
+<li>对DOM查询使用级联的 <code>$('.sidebar ul')</code> 或 <code>$('.sidebar ul')</code>，<a href="http://jsperf.com/jquery-find-vs-context-sel/16">jsPerf</a>
+</li>
+<li>
+<p>对有作用域的jQuery对象查询使用 <code>find</code></p>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-c">// 不推荐</span>
+$(<span class="pl-s"><span class="pl-pds">'</span>ul<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>.sidebar<span class="pl-pds">'</span></span>).hide();
+
+<span class="pl-c">// 不推荐</span>
+$(<span class="pl-s"><span class="pl-pds">'</span>.sidebar<span class="pl-pds">'</span></span>).<span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>ul<span class="pl-pds">'</span></span>).hide();
+
+<span class="pl-c">// 推荐</span>
+$(<span class="pl-s"><span class="pl-pds">'</span>.sidebar ul<span class="pl-pds">'</span></span>).hide();
+
+<span class="pl-c">// 推荐</span>
+$(<span class="pl-s"><span class="pl-pds">'</span>.sidebar &gt; ul<span class="pl-pds">'</span></span>).hide();
+
+<span class="pl-c">// 推荐</span>
+$sidebar.<span class="pl-c1">find</span>(<span class="pl-s"><span class="pl-pds">'</span>ul<span class="pl-pds">'</span></span>).hide();</pre></div>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-ecmascript-5-compatibility" class="anchor" href="#ecmascript-5-compatibility" aria-hidden="true"><span class="octicon octicon-link"></span></a>ECMAScript 5 Compatibility</h2>
+
+<ul>
+<li>Refer to <a href="https://twitter.com/kangax/">Kangax</a>'s ES5 <a href="http://kangax.github.com/es5-compat-table/">compatibility table</a>.</li>
+</ul>
+
+
+<h2>
+<a id="user-content-性能" class="anchor" href="#%E6%80%A7%E8%83%BD" aria-hidden="true"><span class="octicon octicon-link"></span></a>性能</h2>
+
+<ul>
+<li><a href="http://kellegous.com/j/2013/01/26/layout-performance/">On Layout &amp; Web Performance</a></li>
+<li><a href="http://jsperf.com/string-vs-array-concat/2">String vs Array Concat</a></li>
+<li><a href="http://jsperf.com/try-catch-in-loop-cost">Try/Catch Cost In a Loop</a></li>
+<li><a href="http://jsperf.com/bang-function">Bang Function</a></li>
+<li><a href="http://jsperf.com/jquery-find-vs-context-sel/13">jQuery Find vs Context, Selector</a></li>
+<li><a href="http://jsperf.com/innerhtml-vs-textcontent-for-script-text">innerHTML vs textContent for script text</a></li>
+<li><a href="http://jsperf.com/ya-string-concat">Long String Concatenation</a></li>
+<li>Loading...</li>
+</ul>
+
+
+
+
+
             </article>
         </div>
     </div>
